@@ -1,12 +1,11 @@
 # WritingPen
 钢笔效果的实现
-##不逼逼，看效果，感觉我的书法还阔以，哈哈
-
+##不逼逼，看效果，感觉我的书法还阔以，哈哈!
 
 ![image.png](http://upload-images.jianshu.io/upload_images/5363507-633fbf6aacb2c741.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![image.png](http://upload-images.jianshu.io/upload_images/5363507-8b622187caa4fca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-####实现这个效果，大体用了40个小时，熬了3天夜，我未来的女朋友给我作证，看了无数的文档，在git上有个哥们用opengGl3.0实现比我这个更牛逼的效果，但是发现在低端手机上会报错，原因是不支持openGL3.0，导致Apk装入失败，1.0的api有看不懂，你说我能怎么办，我也很绝望啊！同时感觉opengl更加节手机性能，but我错了，在低端手机上使用opengl简直就是噩梦，卡的一逼，算了不提了，此功能的实现还是基于安卓的Piant，通过事件去绘制路径。
+####实现这个效果，大体用了40个小时，熬了3天夜，我未来的女朋友给我作证，看了无数的文档，在git上有个哥们用opengGl3.0实现比我这个更牛逼的效果，但是发现在低端手机上会报错，原因是不支持openGL3.0，导致Apk装入失败，1.0的api有看不懂，你说我能怎么办，我也很绝望啊！同时感觉opengl更加节手机性能，but我错了，在低端手机上使用opengl简直就是噩梦，卡的一逼，算了不提了，此功能的实现还是基于安卓的Paint，通过事件去绘制路径。
 
 ##1.创建DrawPenView类继承View
 
@@ -101,7 +100,8 @@
     }
 
 ```
-####在这里我需要提到一个motionEvent的api：：：motionEvent.getToolType(0);返回的以下四种的值，TOOL_TYPE_UNKNOWN ：不知道什么画的
+####在这里我需要提到一个MotionEvent的api：motionEvent.getToolType(0);返回的以下四种的值，
+TOOL_TYPE_UNKNOWN ：不知道什么画的
 TOOL_TYPE_FINGER ：手指
 TOOL_TYPE_STYLUS ：笔画的
 TOOL_TYPE_MOUSE ：该工具是一个鼠标或触控板
@@ -184,8 +184,8 @@ motionEvent.getEventTime()：事件发生的事件，在我此时的事件是shi
     }
 ```
 ##3.清除画布
-这个功能简单，把paint的模式设置为clear，使用我们新建的
-canvas去drapaint这个笔，记得清除完了，要把mode设置为null
+Xfermode国外有大神称之为过渡模式，这种翻译比较贴切但恐怕不易理解，大家也可以直接称之为图像混合模式，因为所谓的“过渡”其实就是图像混合的一种把paint.setXfermode(Xfermode xfermode)的模式设置为clear，使用我们新建的canvas去drapaint这个笔，记得清除完了，要把mode设置为null
+有偏文档介绍的很好，我在这里抛砖引玉一下，就不班门弄斧了：http://www.cnblogs.com/tianzhijiexian/p/4297172.html
 ```
   /**
      *清除画布，记得清除点的集合
@@ -206,48 +206,55 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
 ![image.png](http://upload-images.jianshu.io/upload_images/5363507-df08ff751b79f650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ####知道两点连接起来是直线，当我们不断的求出两个点的控制点，把无数的控制点绘制在一起就是一条完美的曲线，反正我这样子理解的，当然我在这里也做了一个width的控制，和这种的原理差不多。
 ```
-  public void Init(float lastx, float lasty, float lastWidth, float x, float y, float width)
+ public void init(float lastx, float lasty, float lastWidth, float x, float y, float width)
     {
         //资源点设置，最后的点的为资源点
-        mSource.Set(lastx, lasty, lastWidth);
-        float xmid = GetMid(lastx, x);
-        float ymid = GetMid(lasty, y);
-        float wmid = GetMid(lastWidth, width);
+        mSource.set(lastx, lasty, lastWidth);
+        float xmid = getMid(lastx, x);
+        float ymid = getMid(lasty, y);
+        float wmid = getMid(lastWidth, width);
         //距离点为平均点
-        mDestination.Set(xmid, ymid, wmid);
+        mDestination.set(xmid, ymid, wmid);
         //控制点为当前的距离点
-        mControl.Set(GetMid(lastx,xmid),GetMid(lasty,ymid),GetMid(lastWidth,wmid));
+        mControl.set(getMid(lastx,xmid),getMid(lasty,ymid),getMid(lastWidth,wmid));
         //下个控制点为当前点
-        mNextControl.Set(x, y, width);
+        mNextControl.set(x, y, width);
     }
+
  /**
      *
      * @param x1 一个点的x
      * @param x2 一个点的x
      * @return
      */
-    private float GetMid(float x1, float x2) {
+   /**
+     *
+     * @param x1 一个点的x
+     * @param x2 一个点的x
+     * @return
+     */
+    private float getMid(float x1, float x2) {
         return (float)((x1 + x2) / 2.0);
     }
 
-    private double GetWidth(double w0, double w1, double t){
+    private double getWidth(double w0, double w1, double t){
         return w0 + (w1 - w0) * t;
     }
 ```
 ####以上记得知道个步骤，才能方便理解，当这个点是我们资源点的时候，或者是当前点，那么它下一步就会成为一个新的资源点，需要不断的替换当前的起点和终点，那么才可以形成一个曲线
 ```
-/**
+    /**
      * 替换就的点，原来的距离点变换为资源点，控制点变为原来的下一个控制点，距离点取原来控制点的和新的的一半
      * 下个控制点为新的点
      * @param x 新的点的坐标
      * @param y 新的点的坐标
      * @param width
      */
-    public void AddNode(float x, float y, float width){
-        mSource.Set(mDestination);
-        mControl.Set(mNextControl);
-        mDestination.Set(GetMid(mNextControl.x, x), GetMid(mNextControl.y, y), GetMid(mNextControl.width, width));
-        mNextControl.Set(x, y, width);
+    public void addNode(float x, float y, float width){
+        mSource.set(mDestination);
+        mControl.set(mNextControl);
+        mDestination.set(getMid(mNextControl.x, x), getMid(mNextControl.y, y), getMid(mNextControl.width, width));
+        mNextControl.set(x, y, width);
     }
 ```
 ####是不是看不懂，对，看不懂就对了，去下面看代码，记得在本子上多画几个点，想象一下这样变换的位置，然后就会明白了这真的是一个美妙的曲线，比女朋友还漂亮，哈哈，扯皮了
@@ -258,18 +265,24 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
      * 因为在down的事件中，所有点都会被重置，然后设置这个没有多少意义，但是可以改变下个事件的朝向改变
      * 先留着，因为后面如果需要控制整个颜色的改变的话，我的依靠这个方法，还有按压的时间的变化
      */
-    public void End() {
-        mSource.Set(mDestination);
-        float x = GetMid(mNextControl.x, mSource.x);
-        float y = GetMid(mNextControl.y, mSource.y);
-        float w = GetMid(mNextControl.width, mSource.width);
-        mControl.Set(x, y, w);
-        mDestination.Set(mNextControl);
+     /**
+     * 结合手指抬起来的动作，告诉现在的曲线控制点也必须变化，其实在这里也不需要结合着up事件使用
+     * 因为在down的事件中，所有点都会被重置，然后设置这个没有多少意义，但是可以改变下个事件的朝向改变
+     * 先留着，因为后面如果需要控制整个颜色的改变的话，我的依靠这个方法，还有按压的时间的变化
+     */
+    public void end() {
+        mSource.set(mDestination);
+        float x = getMid(mNextControl.x, mSource.x);
+        float y = getMid(mNextControl.y, mSource.y);
+        float w = getMid(mNextControl.width, mSource.width);
+        mControl.set(x, y, w);
+        mDestination.set(mNextControl);
     }
 ```
 ####还有个方法：我的提一句，是不是想一个一元二次的方程，哈哈！这个不是我写的，这个是基于git上开源的写的，是不是有点高中数学的影响了，哈哈，对就是这样的，
 
 ![image.png](http://upload-images.jianshu.io/upload_images/5363507-502f1a6068d1fc73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
      * 三阶曲线的控制点
      * @param p0
@@ -278,14 +291,70 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
      * @param t
      * @return
      */
-    private double GetValue(double p0, double p1, double p2, double t){
+    private double getValue(double p0, double p1, double p2, double t){
         double A = p2 - 2 * p1 + p0;
         double B = 2 * (p1 - p0);
         double C = p0;
         return A * t * t + B * t + C;
     }
 
-##5.关于pen，这个类才是所有的关键，这里需要在view中的onDraw中调用，本来我开始是想说能不能再一开始的时候，down事件的时候，给他画个园，但是这个园的半径我控制不好，所以在代码中我留下这个问题，以后需要做更难的效果的时候，我来把这个开始的步骤补上。
+##5.关于StrokePen，这个类才是所有的关键，如图分析：其实原理就是，通过安卓事件收集一个点的集合，这个点的集合的第一点和第二个点，绘制一个椭圆一个椭圆。
+
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-61b7202ef15ed062.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+```
+ private void drawLine(Canvas canvas, double x0, double y0, double w0, double x1, double y1, double w1, Paint paint){
+         //求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园
+        double curDis = Math.hypot(x0-x1, y0-y1);
+        int steps = 1;
+        if(paint.getStrokeWidth() < 6){
+            steps = 1+(int)(curDis/2);
+        }else if(paint.getStrokeWidth() > 60){
+            steps = 1+(int)(curDis/4);
+        }else{
+            steps = 1+(int)(curDis/3);
+        }
+        double deltaX=(x1-x0)/steps;
+        double deltaY=(y1-y0)/steps;
+        double deltaW=(w1-w0)/steps;
+        double x=x0;
+        double y=y0;
+        double w=w0;
+
+        for(int i=0;i<steps;i++){
+            RectF oval = new RectF();
+            oval.set((float)(x-w/4.0f), (float)(y-w/2.0f), (float)(x+w/4.0f), (float)(y+w/2.0f));
+            //最基本的实现，通过点控制线，绘制椭圆
+            canvas.drawOval(oval, paint);
+            x+=deltaX;
+            y+=deltaY;
+            w+=deltaW;
+        }
+    }
+
+```
+ ####说明
+*   求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园
+        double curDis = Math.hypot(x0-x1, y0-y1);
+*  绘制多少个椭圆，我们可以根据笔的宽度,当笔的宽度和大的时候，我们绘制的可以适当减少步骤
+```
+  if(paint.getStrokeWidth() < 6){
+            steps = 1+(int)(curDis/2);
+        }else if(paint.getStrokeWidth() > 60){
+            steps = 1+(int)(curDis/4);
+        }else{
+            steps = 1+(int)(curDis/3);
+        }
+```
+*  关于Rext和RexF的区别：Rect是使用int类型作为数值，RectF是使用float类型作为数值。很明显这里我们需要更高的精度
+*  绘制的原理，就是每个记录下的点绘制一个椭圆，当无数个的椭圆重合在一起就是一个线，这个线的宽度和椭圆的形状有关系
+```
+            RectF oval = new RectF();
+            oval.set((float)(x-w/4.0f), (float)(y-w/2.0f), (float)(x+w/4.0f), (float)(y+w/2.0f));
+            //最基本的实现，通过点控制线，绘制椭圆
+            canvas.drawOval(oval, paint);
+```
+
+这里需要在view中的onDraw中调用，本来我开始是想说能不能再一开始的时候，down事件的时候，给他画个园，但是这个园的半径我控制不好，所以在代码中我留下这个问题，以后需要做更难的效果的时候，我来把这个开始的步骤补上。
 ```
 /**
      * 早onDraw需要调用
@@ -311,7 +380,7 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
         }
     }
 ```
-####down事件处理
+####Down事件处理
 ```
      * 手指的down事件
      * @param mElement
@@ -344,7 +413,7 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
 ```
 
 
-####move事件的处理
+####Move事件的处理
 ```
  public void onMove(MotionElement mElement) {
         ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);
@@ -405,7 +474,7 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
     }
 ```
 
-##up事件的处理:当需要关心我们画的这个bitmap的时候，记得在up结束的时候，需要把这个绘制的东西需要重新绘制到我们自定义View的画布上，这个画笔是自己定义的，而不是View里面onDraw(cavns)里面的画布
+##Up事件的处理:当需要关心我们画的这个bitmap的时候，记得在up结束的时候，需要把这个绘制的东西需要重新绘制到我们自定义View的画布上，这个画笔是自己定义的，而不是View里面onDraw(cavns)里面的画布
 
 ```
  public void onUp(MotionElement mElement, Canvas canvas) {
@@ -480,5 +549,42 @@ canvas去drapaint这个笔，记得清除完了，要把mode设置为null
 
 ![image.png](http://upload-images.jianshu.io/upload_images/5363507-e5217194937430b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-##git地址，tks！
+#写在最后的话，不要皮，讲个原理，实现笔锋的效果？到底怎么实现，我先前纠结的是我一定要拿到手指的滑动的速率，安卓也提供了这个api，ViewPager的源码中提供了思路：如下图所示
+
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-8c985104e33ab948.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-ce8efa32bb2d2f9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-ec29a3a0dfbb29ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+#当这个速度大于了mMinimumVelocity这个值的时候， Math.abs(velocity) > mMinimumVelocity那么我们的页面就需要翻页了，下面是ViewPager的实现的代码，很明显就知道
+```
+    final float density = context.getResources().getDisplayMetrics().density;
+
+        mTouchSlop = configuration.getScaledPagingTouchSlop();
+        mMinimumVelocity = (int) (MIN_FLING_VELOCITY * density);
+```
+```
+
+    private int determineTargetPage(int currentPage, float pageOffset, int velocity, int deltaX) {
+        int targetPage;
+        if (Math.abs(deltaX) > mFlingDistance && Math.abs(velocity) > mMinimumVelocity) {
+            targetPage = velocity > 0 ? currentPage : currentPage + 1;
+        } else {
+            final float truncator = currentPage >= mCurItem ? 0.4f : 0.6f;
+            targetPage = currentPage + (int) (pageOffset + truncator);
+        }
+
+        if (mItems.size() > 0) {
+            final ItemInfo firstItem = mItems.get(0);
+            final ItemInfo lastItem = mItems.get(mItems.size() - 1);
+
+            // Only let the user target pages we have items for
+            targetPage = Math.max(firstItem.position, Math.min(targetPage, lastItem.position));
+        }
+
+        return targetPage;
+    }
+```
+#我就一直纠结啊，这种可以啊，没毛病啊，老铁，我就一直做啊做，实现的效果，就是一直Move事件中的笔的宽度都是一样的，是不是崩溃啊，的确很崩溃，最后我在想，能不能拿到按压值MotionEvent.getPressure();但是最后通过一查，这个方法的返回值是这样决定的：感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的，我一直用手写，这个值永远不变，奔溃，又一次崩溃，最后在研究一个opengl写的Demo的时候，我发现了一个真理：那就是，我要画多长，是用户手指决定的，但是它的Move事件中接受到的点的数量是和这个距离没有相对应的关系，啊哈哈，对不对，我接受了这个多点，但是我要画很长的线，是不是我的线就细了，但Move中的接受到的点数量一样，我画的距离短了，是不是线就粗了，这就是这个Demo的原理，顿时豁然开朗，春暖花开！
+##最后奉上Git地址，tks！
 https://github.com/Shimingli/WritingPen

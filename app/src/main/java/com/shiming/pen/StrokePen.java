@@ -3,7 +3,6 @@ package com.shiming.pen;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
@@ -27,7 +26,6 @@ public class StrokePen {
     private ArrayList<ControllerPoint> mHWPointList;
     private Bezier mBezier;
     private ControllerPoint mLastPoint;
-    private Path mPath;
     //笔的宽度信息
     private double mBaseWidth;
     private double mLastVel;
@@ -45,9 +43,7 @@ public class StrokePen {
         mPointList = new ArrayList<ControllerPoint>();
         mHWPointList = new ArrayList<ControllerPoint>();
         mBezier = new Bezier();
-        mPath = new Path();
         mLastPoint = new ControllerPoint(0, 0);
-
     }
 
     /**
@@ -119,7 +115,6 @@ public class StrokePen {
      */
     public void onDown(MotionElement mElement) {
         mPaint.setXfermode(null);
-        mPath = new Path();
         mPointList.clear();
         mHWPointList.clear();
         //记录down的控制点的信息
@@ -138,12 +133,9 @@ public class StrokePen {
         mPointList.add(curPoint);
         //记录当前的点
         mLastPoint = curPoint;
-        //绘制起点
-        mPath.moveTo(mElement.x, mElement.y);
     }
     public void onMove(MotionElement mElement) {
         ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);
-
         double deltaX = curPoint.x - mLastPoint.x;
         double deltaY = curPoint.y - mLastPoint.y;
         //deltaX和deltay平方和的二次方根 想象一个例子 1+1的平方根为1.4 （x²+y²）开根号
@@ -192,10 +184,6 @@ public class StrokePen {
             mHWPointList.add(point);
         }
 
-        mPath.quadTo(mLastPoint.x, mLastPoint.y,
-                (mElement.x + mLastPoint.x) / 2,
-                (mElement.y + mLastPoint.y) / 2);
-
         mLastPoint = curPoint;
     }
 
@@ -228,10 +216,6 @@ public class StrokePen {
             mHWPointList.add(point);
         }
 
-        mPath.quadTo(mLastPoint.x, mLastPoint.y,
-                (mElement.x + mLastPoint.x) / 2,
-                (mElement.y + mLastPoint.y) / 2);
-        mPath.lineTo(mElement.x, mElement.y);
        // 手指up 我画到纸上上
         draw(canvas);
 
@@ -302,6 +286,7 @@ public class StrokePen {
      * @param paint
      */
     private void drawLine(Canvas canvas, double x0, double y0, double w0, double x1, double y1, double w1, Paint paint){
+         //求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园
         double curDis = Math.hypot(x0-x1, y0-y1);
         int steps = 1;
         if(paint.getStrokeWidth() < 6){
@@ -319,6 +304,9 @@ public class StrokePen {
         double w=w0;
 
         for(int i=0;i<steps;i++){
+            //都是用于表示坐标系中的一块矩形区域，并可以对其做一些简单操作
+            //精度不一样。Rect是使用int类型作为数值，RectF是使用float类型作为数值。
+//            Rect rect = new Rect();
             RectF oval = new RectF();
             oval.set((float)(x-w/4.0f), (float)(y-w/2.0f), (float)(x+w/4.0f), (float)(y+w/2.0f));
             //最基本的实现，通过点控制线，绘制椭圆
