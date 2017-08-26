@@ -5,7 +5,7 @@ package com.shiming.pen;
  * @version v1.0 create at 2017/8/24
  * @des  对点的位置和宽度控制的bezier曲线，主要是两个点，都包含了宽度和点的坐标
  */
-public class QuadBezierSpline {
+public class Bezier {
     //控制点的，
     private ControllerPoint mControl = new ControllerPoint();
     //距离
@@ -15,7 +15,7 @@ public class QuadBezierSpline {
     //资源的点
     private ControllerPoint mSource = new ControllerPoint();
 
-    public QuadBezierSpline() {
+    public Bezier() {
     }
 
     /**
@@ -23,28 +23,28 @@ public class QuadBezierSpline {
      * @param last 最后的点的信息
      * @param cur 当前点的信息,当前点的信息，当前点的是根据事件获得，同时这个当前点的宽度是经过计算的得出的
      */
-    public void Init(ControllerPoint last, ControllerPoint cur)
+    public void init(ControllerPoint last, ControllerPoint cur)
     {
-        Init(last.x, last.y, last.width, cur.x, cur.y, cur.width);
+        init(last.x, last.y, last.width, cur.x, cur.y, cur.width);
     }
 
-    public void Init(float lastx, float lasty, float lastWidth, float x, float y, float width)
+    public void init(float lastx, float lasty, float lastWidth, float x, float y, float width)
     {
         //资源点设置，最后的点的为资源点
-        mSource.Set(lastx, lasty, lastWidth);
-        float xmid = GetMid(lastx, x);
-        float ymid = GetMid(lasty, y);
-        float wmid = GetMid(lastWidth, width);
+        mSource.set(lastx, lasty, lastWidth);
+        float xmid = getMid(lastx, x);
+        float ymid = getMid(lasty, y);
+        float wmid = getMid(lastWidth, width);
         //距离点为平均点
-        mDestination.Set(xmid, ymid, wmid);
+        mDestination.set(xmid, ymid, wmid);
         //控制点为当前的距离点
-        mControl.Set(GetMid(lastx,xmid),GetMid(lasty,ymid),GetMid(lastWidth,wmid));
+        mControl.set(getMid(lastx,xmid),getMid(lasty,ymid),getMid(lastWidth,wmid));
         //下个控制点为当前点
-        mNextControl.Set(x, y, width);
+        mNextControl.set(x, y, width);
     }
 
-    public void AddNode(ControllerPoint cur){
-        AddNode(cur.x, cur.y, cur.width);
+    public void addNode(ControllerPoint cur){
+        addNode(cur.x, cur.y, cur.width);
     }
 
     /**
@@ -54,11 +54,11 @@ public class QuadBezierSpline {
      * @param y 新的点的坐标
      * @param width
      */
-    public void AddNode(float x, float y, float width){
-        mSource.Set(mDestination);
-        mControl.Set(mNextControl);
-        mDestination.Set(GetMid(mNextControl.x, x), GetMid(mNextControl.y, y), GetMid(mNextControl.width, width));
-        mNextControl.Set(x, y, width);
+    public void addNode(float x, float y, float width){
+        mSource.set(mDestination);
+        mControl.set(mNextControl);
+        mDestination.set(getMid(mNextControl.x, x), getMid(mNextControl.y, y), getMid(mNextControl.width, width));
+        mNextControl.set(x, y, width);
     }
 
     /**
@@ -66,13 +66,13 @@ public class QuadBezierSpline {
      * 因为在down的事件中，所有点都会被重置，然后设置这个没有多少意义，但是可以改变下个事件的朝向改变
      * 先留着，因为后面如果需要控制整个颜色的改变的话，我的依靠这个方法，还有按压的时间的变化
      */
-    public void End() {
-        mSource.Set(mDestination);
-        float x = GetMid(mNextControl.x, mSource.x);
-        float y = GetMid(mNextControl.y, mSource.y);
-        float w = GetMid(mNextControl.width, mSource.width);
-        mControl.Set(x, y, w);
-        mDestination.Set(mNextControl);
+    public void end() {
+        mSource.set(mDestination);
+        float x = getMid(mNextControl.x, mSource.x);
+        float y = getMid(mNextControl.y, mSource.y);
+        float w = getMid(mNextControl.width, mSource.width);
+        mControl.set(x, y, w);
+        mDestination.set(mNextControl);
     }
 
     /**
@@ -80,13 +80,13 @@ public class QuadBezierSpline {
      * @param t 孔子
      * @return
      */
-    public ControllerPoint GetPoint(double t){
-        float x = (float)GetX(t);
-        float y = (float)GetY(t);
-        float w = (float)GetW(t);
+    public ControllerPoint getPoint(double t){
+        float x = (float)getX(t);
+        float y = (float)getY(t);
+        float w = (float)getW(t);
         System.out.println("shiming  "+x+" y"+y +"w="+w+"t==="+t);
         ControllerPoint point = new ControllerPoint();
-        point.Set(x,y,w);
+        point.set(x,y,w);
         return point;
     }
 
@@ -98,23 +98,23 @@ public class QuadBezierSpline {
      * @param t
      * @return
      */
-    private double GetValue(double p0, double p1, double p2, double t){
+    private double getValue(double p0, double p1, double p2, double t){
         double A = p2 - 2 * p1 + p0;
         double B = 2 * (p1 - p0);
         double C = p0;
         return A * t * t + B * t + C;
     }
 
-    private double GetX(double t) {
-        return GetValue(mSource.x, mControl.x, mDestination.x, t);
+    private double getX(double t) {
+        return getValue(mSource.x, mControl.x, mDestination.x, t);
     }
 
-    private double GetY(double t) {
-        return GetValue(mSource.y, mControl.y, mDestination.y, t);
+    private double getY(double t) {
+        return getValue(mSource.y, mControl.y, mDestination.y, t);
     }
 
-    private double GetW(double t){
-        return GetWidth(mSource.width, mDestination.width, t);
+    private double getW(double t){
+        return getWidth(mSource.width, mDestination.width, t);
     }
 
     /**
@@ -123,11 +123,11 @@ public class QuadBezierSpline {
      * @param x2 一个点的x
      * @return
      */
-    private float GetMid(float x1, float x2) {
+    private float getMid(float x1, float x2) {
         return (float)((x1 + x2) / 2.0);
     }
 
-    private double GetWidth(double w0, double w1, double t){
+    private double getWidth(double w0, double w1, double t){
         return w0 + (w1 - w0) * t;
     }
 

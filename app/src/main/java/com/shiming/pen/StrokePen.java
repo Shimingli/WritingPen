@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @version v1.0 create at 2017/8/24
  * @des  画笔的类
  */
-public class VisualStrokePen {
+public class StrokePen {
     //这个控制笔锋的控制值
     protected float DIS_VEL_CAL_FACTOR = 0.02f;
     //手指在移动的控制笔的变化率
@@ -25,7 +25,7 @@ public class VisualStrokePen {
 
     private ArrayList<ControllerPoint> mPointList;
     private ArrayList<ControllerPoint> mHWPointList;
-    private QuadBezierSpline mBezier;
+    private Bezier mBezier;
     private ControllerPoint mLastPoint;
     private Path mPath;
     //笔的宽度信息
@@ -41,10 +41,10 @@ public class VisualStrokePen {
 
     }
 
-    public VisualStrokePen(Context context) {
+    public StrokePen(Context context) {
         mPointList = new ArrayList<ControllerPoint>();
         mHWPointList = new ArrayList<ControllerPoint>();
-        mBezier = new QuadBezierSpline();
+        mBezier = new Bezier();
         mPath = new Path();
         mLastPoint = new ControllerPoint(0, 0);
 
@@ -162,7 +162,7 @@ public class VisualStrokePen {
                         mLastWidth);
             }
             curPoint.width = (float) curWidth;
-            mBezier.Init(mLastPoint, curPoint);
+            mBezier.init(mLastPoint, curPoint);
         } else {
             System.out.println("shiming==dian duo");
             mLastVel = curVel;
@@ -177,7 +177,7 @@ public class VisualStrokePen {
                 System.out.println("shiming==dian duo"+curWidth);
             }
             curPoint.width = (float) curWidth;
-            mBezier.AddNode(curPoint);
+            mBezier.addNode(curPoint);
         }
         //每次移动的话，这里赋值新的值
         mLastWidth = curWidth;
@@ -188,7 +188,7 @@ public class VisualStrokePen {
         System.out.println("shiming-- steps"+steps);
         double step = 1.0 / steps;
         for (double t = 0; t < 1.0; t += step) {
-            ControllerPoint point = mBezier.GetPoint(t);
+            ControllerPoint point = mBezier.getPoint(t);
             mHWPointList.add(point);
         }
 
@@ -213,18 +213,18 @@ public class VisualStrokePen {
 
         mPointList.add(curPoint);
 
-        mBezier.AddNode(curPoint);
+        mBezier.addNode(curPoint);
 
         int steps = 1 + (int) curDis / STEPFACTOR;
         double step = 1.0 / steps;
         for (double t = 0; t < 1.0; t += step) {
-            ControllerPoint point = mBezier.GetPoint(t);
+            ControllerPoint point = mBezier.getPoint(t);
             mHWPointList.add(point);
         }
         //
-        mBezier.End();
+        mBezier.end();
         for (double t = 0; t < 1.0; t += step) {
-            ControllerPoint point = mBezier.GetPoint(t);
+            ControllerPoint point = mBezier.getPoint(t);
             mHWPointList.add(point);
         }
 

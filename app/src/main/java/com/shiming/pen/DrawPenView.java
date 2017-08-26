@@ -27,7 +27,7 @@ public class DrawPenView extends View {
     private Bitmap mBitmap;
     public static final int CANVAS_NORMAL = 0;
     public static final int CANVAS_RESET = 1;//全部清除
-    private VisualStrokePen mVisualStrokePen;
+    private StrokePen mVisualStrokePen;
     private Context mContext;
     public static  int mCanvasCode=CANVAS_NORMAL;
 
@@ -57,7 +57,7 @@ public class DrawPenView extends View {
         ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         mBitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, Bitmap.Config.ARGB_8888);
         //笔的控制类
-        mVisualStrokePen=new VisualStrokePen(mContext);
+        mVisualStrokePen=new StrokePen(mContext);
         initPaint(mContext);
         initCanvas();
     }

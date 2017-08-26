@@ -21,13 +21,13 @@ public class ControllerPoint {
     }
 
 
-    public void Set(float x, float y, float w) {
+    public void set(float x, float y, float w) {
         this.x = x;
         this.y = y;
         this.width = w;
     }
 
-    public void Set(ControllerPoint point) {
+    public void set(ControllerPoint point) {
         this.x = point.x;
         this.y = point.y;
         this.width = point.width;
