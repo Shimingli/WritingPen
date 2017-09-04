@@ -34,6 +34,8 @@ public class DrawPenView extends View {
     public DrawPenView(Context context) {
         super(context);
         initParameter(context);
+
+
     }
 
     public DrawPenView(Context context, AttributeSet attrs) {
