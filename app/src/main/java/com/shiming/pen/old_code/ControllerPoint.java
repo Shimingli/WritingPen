@@ -1,17 +1,17 @@
-package com.shiming.pen;
+package com.shiming.pen.old_code;
 
 
 /**
  * @author shiming
  * @version v1.0 create at 2017/8/24
- * @des 每个点的控制，关心三个因素：时间，笔的宽度，坐标
+ * @des 每个点的控制，关心三个因素：笔的宽度，坐标,透明数值
  */
 public class ControllerPoint {
     public float x;
     public float y;
 
     public float width;
-
+    public int alpha = 255;
     public ControllerPoint() {
     }
 
@@ -26,6 +26,7 @@ public class ControllerPoint {
         this.y = y;
         this.width = w;
     }
+
 
     public void set(ControllerPoint point) {
         this.x = point.x;

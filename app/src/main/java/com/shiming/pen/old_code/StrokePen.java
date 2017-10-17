@@ -1,4 +1,4 @@
-package com.shiming.pen;
+package com.shiming.pen.old_code;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,19 +6,25 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.shiming.pen.Bezier;
+import com.shiming.pen.new_code.MotionElement;
+
 import java.util.ArrayList;
 
 
 /**
  * @author shiming
  * @version v1.0 create at 2017/8/24
- * @des  画笔的类
+ * @des  画笔的类（）
  */
 public class StrokePen {
     //这个控制笔锋的控制值
     protected float DIS_VEL_CAL_FACTOR = 0.02f;
+//    protected float DIS_VEL_CAL_FACTOR =2000f;
     //手指在移动的控制笔的变化率
-    protected float WIDTH_THRES_MAX = 0.6f;
+//    protected float WIDTH_THRES_MAX = 0.6f;
+    //线的粗细的，这个值越大，线的粗细越加明显
+    protected float WIDTH_THRES_MAX = 10f;
     //绘制计算的次数，数值越小计算的次数越多，需要折中
     protected int STEPFACTOR = 10;
 
@@ -70,30 +76,6 @@ public class StrokePen {
         }
     }
 
-    /**
-     * 事件的再次处理的，防止bug的产生,由于需要接口的回调的监听，所以需要放到drawpenview中去实现
-     * @param event
-     * @param canvas
-     * @return
-     */
-
-    public boolean onTouchEvent(MotionEvent event, Canvas canvas) {
-        MotionEvent event2 = MotionEvent.obtain(event);
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                onDown(createMotionElement(event2));
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                onMove(createMotionElement(event2));
-                return true;
-            case MotionEvent.ACTION_UP:
-                onUp(createMotionElement(event2),canvas);
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
 
     /**
      * event.getPressure(); //LCD可以感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的,我的手机上为1
@@ -309,6 +291,7 @@ public class StrokePen {
 //            Rect rect = new Rect();
             RectF oval = new RectF();
             oval.set((float)(x-w/4.0f), (float)(y-w/2.0f), (float)(x+w/4.0f), (float)(y+w/2.0f));
+//            oval.set((float)(x+w/4.0f), (float)(y+w/4.0f), (float)(x-w/4.0f), (float)(y-w/4.0f));
             //最基本的实现，通过点控制线，绘制椭圆
             canvas.drawOval(oval, paint);
             x+=deltaX;
@@ -320,23 +303,6 @@ public class StrokePen {
     public void setPaint(Paint paint) {
         mPaint = paint;
         mBaseWidth = paint.getStrokeWidth();
-    }
-
-
-    public static class MotionElement {
-
-        public float x;
-        public float y;
-        public float pressure;
-        public int tooltype;
-
-        public MotionElement(float mx, float my, float mp, int ttype) {
-            x = mx;
-            y = my;
-            pressure = mp;
-            tooltype = ttype;
-        }
-
     }
 
 }

@@ -1,5 +1,7 @@
 package com.shiming.pen;
 
+import com.shiming.pen.old_code.ControllerPoint;
+
 /**
  * @author shiming
  * @version v1.0 create at 2017/8/24
@@ -84,7 +86,6 @@ public class Bezier {
         float x = (float)getX(t);
         float y = (float)getY(t);
         float w = (float)getW(t);
-        System.out.println("shiming  "+x+" y"+y +"w="+w+"t==="+t);
         ControllerPoint point = new ControllerPoint();
         point.set(x,y,w);
         return point;
