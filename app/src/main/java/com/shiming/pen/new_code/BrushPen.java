@@ -6,8 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -54,9 +52,10 @@ public class BrushPen extends BasePenExtend {
         //用画布制定位图绘制
         canvas.setBitmap(mBitmap);
         Paint paint = new Paint();
-        //如果把这行代码注释掉这里生成的东西更加有效
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        //如果把这行代码注释掉这里生成的东西更加有意思
+        //paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
         canvas.drawBitmap(bitmap, 0, 0, paint);
+
         //src 代表需要绘制的区域
         src.set(0, 0, mBitmap.getWidth()/4, mBitmap.getHeight()/4);
         //src.set(0, 0, 100,100);
@@ -70,7 +69,7 @@ public class BrushPen extends BasePenExtend {
         setBitmap(mOriginBitmap);
     }
 
-    private ControllerPoint dealWithPointAlpha(ControllerPoint point) {
+    private ControllerPoint getWithPointAlphaPoint(ControllerPoint point) {
         ControllerPoint nPoint = new ControllerPoint();
         nPoint.x = point.x;
         nPoint.y = point.y;
@@ -137,11 +136,9 @@ public class BrushPen extends BasePenExtend {
     protected void drawNeetToDo(Canvas canvas) {
         for (int i = 1; i < mHWPointList.size(); i++) {
             ControllerPoint point = mHWPointList.get(i);
-            //对每个笔设置了透明度
-            Paint paint = new Paint(mPaint);
-            drawToPoint(canvas, point, paint);
+
+            drawToPoint(canvas, point, mPaint);
             mCurPoint = point;
-            paint=null;
         }
     }
 
@@ -152,10 +149,17 @@ public class BrushPen extends BasePenExtend {
         double step = 1.0 / steps;
         for (double t = 0; t < 1.0; t += step) {
             ControllerPoint point = mBezier.getPoint(t);
-            point = dealWithPointAlpha(point);
+            point = getWithPointAlphaPoint(point);
             mHWPointList.add(point);
         }
 
     }
-
+    //对每个笔设置了透明度 如果这里不设置一个新的笔的话，每次down事件发生了，就会把一起的绘制完成的东西，透明度也发生改变，
+    //这里还有想到更好的方法，
+    // TODO: 2017/10/18
+    //虽然这样设置了，但是还是有问题，每次down的时候，虽然是一根新的笔，但是原来的笔始终有点小小的问题
+    @Override
+    protected Paint getNewPaint(Paint paint) {
+        return new Paint(paint);
+    }
 }

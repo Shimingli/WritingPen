@@ -6,10 +6,9 @@ import android.view.MotionEvent;
 /**
  * @author shiming
  * @version v1.0 create at 2017/10/17
- * @des
+ * @des 处理draw和touch事件的基类
  */
 public abstract class BasePen {
-
 
     /**
      * 绘制

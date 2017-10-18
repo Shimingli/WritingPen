@@ -47,6 +47,7 @@ public abstract class BasePenExtend extends BasePen {
 
     @Override
     public void draw(Canvas canvas) {
+        System.out.println("shiming draw");
         mPaint.setStyle(Paint.Style.FILL);
         //点的集合少 不去绘制
         if (mHWPointList == null || mHWPointList.size() < 1)
@@ -87,7 +88,10 @@ public abstract class BasePenExtend extends BasePen {
         if (mPaint==null){
             throw new NullPointerException("paint 笔不可能为null哦");
         }
-        mPaint.setXfermode(null);
+        if (getNewPaint(mPaint)!=null){
+            mPaint=getNewPaint(mPaint);
+            System.out.println("shiming 当绘制的时候是否为新的paint"+mPaint);
+        }
         mPointList.clear();
         //如果在brush字体这里接受到down的事件，把下面的这个集合清空的话，那么绘制的内容会发生改变
         //不清空的话，也不可能
@@ -107,6 +111,10 @@ public abstract class BasePenExtend extends BasePen {
         mPointList.add(curPoint);
         //记录当前的点
         mLastPoint = curPoint;
+    }
+
+    protected  Paint getNewPaint(Paint paint){
+        return null;
     }
 
     public void onMove(MotionElement mElement){
@@ -158,7 +166,7 @@ public abstract class BasePenExtend extends BasePen {
         double deltaX = mCurPoint.x - mLastPoint.x;
         double deltaY = mCurPoint.y - mLastPoint.y;
         double curDis = Math.hypot(deltaX, deltaY);
-
+        //如果用笔画的画我的屏幕，记录他宽度的和压力值的乘，但是哇，这个是不会变的
         if (mElement.tooltype == MotionEvent.TOOL_TYPE_STYLUS) {
             mCurPoint.width = (float) (mElement.pressure * mBaseWidth);
         } else {

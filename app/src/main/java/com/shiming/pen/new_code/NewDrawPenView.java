@@ -81,13 +81,11 @@ public class NewDrawPenView extends View {
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
         switch (mCanvasCode) {
             case IPenConfig.STROKE_TYPE_PEN:
+            case IPenConfig.STROKE_TYPE_BRUSH:
                 mStokeBrushPen.draw(canvas);
                 break;
             case IPenConfig.STROKE_TYPE_ERASER:
                 reset();
-                break;
-            case IPenConfig.STROKE_TYPE_BRUSH:
-                mStokeBrushPen.draw(canvas);
                 break;
             default:
                 Log.e(TAG, "onDraw" + Integer.toString(mCanvasCode));
