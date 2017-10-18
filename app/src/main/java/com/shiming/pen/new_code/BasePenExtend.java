@@ -47,7 +47,6 @@ public abstract class BasePenExtend extends BasePen {
 
     @Override
     public void draw(Canvas canvas) {
-        System.out.println("shiming draw");
         mPaint.setStyle(Paint.Style.FILL);
         //点的集合少 不去绘制
         if (mHWPointList == null || mHWPointList.size() < 1)
@@ -84,13 +83,22 @@ public abstract class BasePenExtend extends BasePen {
         }
         return super.onTouchEvent(event,canvas);
     }
+
+    /**
+     * 按下的事件
+     * @param mElement
+     */
     public void onDown(MotionElement mElement){
         if (mPaint==null){
             throw new NullPointerException("paint 笔不可能为null哦");
         }
         if (getNewPaint(mPaint)!=null){
-            mPaint=getNewPaint(mPaint);
-            System.out.println("shiming 当绘制的时候是否为新的paint"+mPaint);
+            Paint paint=getNewPaint(mPaint);
+            mPaint=paint;
+            //当然了，不要因为担心内存泄漏，在每个变量使用完成后都添加xxx=null，
+            // 对于消除过期引用的最好方法，就是让包含该引用的变量结束生命周期，而不是显示的清空
+            paint=null;
+            System.out.println("shiming 当绘制的时候是否为新的paint"+mPaint+"原来的对象是否销毁了paint=="+paint);
         }
         mPointList.clear();
         //如果在brush字体这里接受到down的事件，把下面的这个集合清空的话，那么绘制的内容会发生改变
@@ -117,12 +125,17 @@ public abstract class BasePenExtend extends BasePen {
         return null;
     }
 
+    /**
+     * 手指移动的事件
+     * @param mElement
+     */
     public void onMove(MotionElement mElement){
 
         ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);
         double deltaX = curPoint.x - mLastPoint.x;
         double deltaY = curPoint.y - mLastPoint.y;
         //deltaX和deltay平方和的二次方根 想象一个例子 1+1的平方根为1.4 （x²+y²）开根号
+        //同理，当滑动的越快的话，deltaX+deltaY的值越大，这个越大的话，curDis也越大
         double curDis = Math.hypot(deltaX, deltaY);
         //我们求出的这个值越小，画的点或者是绘制椭圆形越多，这个值越大的话，绘制的越少，笔就越细，宽度越小
         double curVel = curDis * IPenConfig.DIS_VEL_CAL_FACTOR;
@@ -152,16 +165,19 @@ public abstract class BasePenExtend extends BasePen {
         }
         //每次移动的话，这里赋值新的值
         mLastWidth = curWidth;
-
         mPointList.add(curPoint);
-        //钢笔的效果
         moveNeetToDo(curDis);
         mLastPoint = curPoint;
     }
 
 
-
+    /**
+     * 手指抬起来的事件
+     * @param mElement
+     * @param canvas
+     */
     public void onUp(MotionElement mElement, Canvas canvas){
+
         mCurPoint = new ControllerPoint(mElement.x, mElement.y);
         double deltaX = mCurPoint.x - mLastPoint.x;
         double deltaY = mCurPoint.y - mLastPoint.y;
@@ -192,6 +208,9 @@ public abstract class BasePenExtend extends BasePen {
 
         // 手指up 我画到纸上上
         draw(canvas);
+        //每次抬起手来，就把集合清空，在水彩笔的那个地方，如果啊，我说如果不清空的话，每次抬起手来，
+        // 在onDown下去的话，最近画的线的透明度有改变，所以这里clear下线的集合
+        clear();
     }
     /**
      *
@@ -206,21 +225,30 @@ public abstract class BasePenExtend extends BasePen {
                                 double factor, double lastWidth) {
         double calVel = curVel * 0.6 + lastVel * (1 - 0.6);
         //返回指定数字的自然对数
+        //手指滑动的越快，这个值越小，为负数
         double vfac = Math.log(factor * 2.0f) * (-calVel);
         //此方法返回值e，其中e是自然对数的基数。
+        //Math.exp(vfac) 变化范围为0 到1 当手指没有滑动的时候 这个值为1 当滑动很快的时候无线趋近于0
+        //在次说明下，当手指抬起来，这个值会变大，这也就说明，抬起手太慢的话，笔锋效果不太明显
+        //这就说明为什么笔锋的效果不太明显
         double calWidth = mBaseWidth * Math.exp(vfac);
-
+        //滑动的速度越快的话，mMoveThres也越大
         double mMoveThres = curDis * 0.01f;
+        //对之值最大的地方进行控制
         if (mMoveThres > IPenConfig.WIDTH_THRES_MAX) {
             mMoveThres = IPenConfig.WIDTH_THRES_MAX;
         }
+        //滑动的越快的话，第一个判断会走
         if (Math.abs(calWidth - mBaseWidth) / mBaseWidth > mMoveThres) {
+
             if (calWidth > mBaseWidth) {
                 calWidth = mBaseWidth * (1 + mMoveThres);
             } else {
                 calWidth = mBaseWidth * (1 - mMoveThres);
             }
+            //滑动的越慢的话，第二个判断会走
         } else if (Math.abs(calWidth - lastWidth) / lastWidth > mMoveThres) {
+
             if (calWidth > lastWidth) {
                 calWidth = lastWidth * (1 + mMoveThres);
             } else {
@@ -246,16 +274,18 @@ public abstract class BasePenExtend extends BasePen {
         mHWPointList.clear();
     }
     /**
-     * 通过点去绘制一条线，当现在的点和触摸点的位置在一起的时候不用去绘制
+     * 当现在的点和触摸点的位置在一起的时候不用去绘制
+     * 但是这里也可以优化，当一直处于onDown事件的时候，其实这个方法一只在走
      * @param canvas
      * @param point
      * @param paint
      */
+    // TODO: 2017/10/18  这里可以优化 当一直处于onDown事件的时候，其实这个方法一直在走，优化的点是，处于down事件，这里不需要走
     protected void drawToPoint(Canvas canvas, ControllerPoint point, Paint paint) {
         if ((mCurPoint.x == point.x) && (mCurPoint.y == point.y)) {
             return;
         }
-        //毛笔的效果和钢笔的不太一样，交给自己去实现
+        //水彩笔的效果和钢笔的不太一样，交给自己去实现
         doNeetToDo(canvas,point,paint);
     }
 
