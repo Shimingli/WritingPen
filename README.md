@@ -1,7 +1,7 @@
 #此Demo介绍的两个地址：
-#安卓画笔笔锋的实现探索（一）：http://www.jianshu.com/p/6746d68ef2c3
-#安卓画笔笔锋的实现探索（二）：http://www.jianshu.com/p/3ee259f2caf7
-#看效果
+安卓画笔笔锋的实现探索（一）：http://www.jianshu.com/p/6746d68ef2c3
+安卓画笔笔锋的实现探索（二）：http://www.jianshu.com/p/3ee259f2caf7#
+#看效果#
 
 设置笔宽度为60，效果如下
 ![微信图片_20170910184918.png](http://upload-images.jianshu.io/upload_images/5363507-f1d4934949530f78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
