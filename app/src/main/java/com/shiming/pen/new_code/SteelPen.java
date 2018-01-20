@@ -83,7 +83,7 @@ public class SteelPen extends BasePenExtend {
             //            Rect rect = new Rect();
             RectF oval = new RectF();
             oval.set((float) (x - w / 4.0f), (float) (y - w / 2.0f), (float) (x + w / 4.0f), (float) (y + w / 2.0f));
-            //            oval.set((float)(x+w/4.0f), (float)(y+w/4.0f), (float)(x-w/4.0f), (float)(y-w/4.0f));
+            // oval.set((float)(x+w/4.0f), (float)(y+w/4.0f), (float)(x-w/4.0f), (float)(y-w/4.0f));
             //最基本的实现，通过点控制线，绘制椭圆
             canvas.drawOval(oval, paint);
             x += deltaX;
