@@ -13,7 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.shiming.pen.R;
-import static com.shiming.pen.field_character.DrawPenView.CANVAS_RESET;
+import com.shiming.pen.new_code.IPenConfig;
+import com.shiming.pen.new_code.NewDrawPenView;
+import static com.shiming.pen.new_code.IPenConfig.STROKE_TYPE_ERASER;
 
 
 /**
@@ -26,13 +28,14 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
     private RelativeLayout mShowKeyboard;
     private RelativeLayout mGotoPreviousStep;
     private RelativeLayout mClearCanvas;
-    private DrawPenView mDrawView;
+    private NewDrawPenView mDrawView;
     private RelativeLayout mSaveBitmap;
     private ViewStub mViewStub;
     private View mChild;
     private Context mContext;
     private ImageView mUpOrDownIcon;
     private LayoutInflater mInflater;
+    private int mPenConfig;
     private boolean mIsShowKeyB;
 
     public DrawViewLayout(@NonNull Context context) {
@@ -67,14 +70,15 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         mClearCanvas.setOnClickListener(this);
         mSaveBitmap.setOnClickListener(this);
         mSaveBitmap.setOnLongClickListener(this);
-       // showOrHideMySurfaceView();
 
     }
 
     private void setDrawViewConfig() {
-        mDrawView = (DrawPenView) findViewById(R.id.myglsurface_view);
-        mDrawView.setCurrentState(DrawPenView.CANVAS_NORMAL);
-        mDrawView.setGetTimeListener(new DrawPenView.TimeListener() {
+        mDrawView = (NewDrawPenView) findViewById(R.id.myglsurface_view);
+        mDrawView.setCanvasCode(IPenConfig.STROKE_TYPE_BRUSH);
+        mPenConfig=IPenConfig.STROKE_TYPE_BRUSH;
+        mDrawView.setPenconfig(mPenConfig);
+        mDrawView.setGetTimeListener(new NewDrawPenView.TimeListener() {
             @Override
             public void getTime(long l) {
                 mIActionCallback.getUptime(l);
@@ -138,15 +142,9 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
 
     public void clearScreen() {
         if (mDrawView==null)return;
-        mDrawView.setCanvasCode(CANVAS_RESET);
+        mDrawView.setCanvasCode(STROKE_TYPE_ERASER);//z注意变量的来源
     }
 
-
-
-    /**
-     * 必须显示键盘，必须哦
-     *
-     */
     public void showBk() {
         if (!getIsShowKeyB()){
             if (mViewStub.getParent() != null) {
@@ -187,8 +185,17 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         return true;
     }
 
-    public DrawPenView getSaveBitmap() {
+    public NewDrawPenView getSaveBitmap() {
         return mDrawView;
+    }
+
+    public int getPenConfig() {
+        return mPenConfig;
+    }
+
+    public void setPenConfig(int penConfig) {
+       mDrawView.setCanvasCode(penConfig);
+        mPenConfig=penConfig;
     }
 
     public interface IActionCallback {

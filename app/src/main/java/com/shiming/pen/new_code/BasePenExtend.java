@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.shiming.pen.Bezier;
+import com.shiming.pen.field_character.DrawPenView;
 import com.shiming.pen.old_code.ControllerPoint;
 
 import java.util.ArrayList;
@@ -319,4 +320,6 @@ public abstract class BasePenExtend extends BasePen {
      */
     // TODO: 2017/10/17  这个问题  待解决
     protected abstract void drawNeetToDo(Canvas canvas);
+
+
 }

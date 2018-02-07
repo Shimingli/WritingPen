@@ -25,4 +25,13 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp"/>
     </RelativeLayout>
+    <Button
+        android:textSize="15sp"
+        android:layout_margin="@dimen/dp_5"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/btn_change_pen"
+        android:text="切换笔的样式"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </FrameLayout>

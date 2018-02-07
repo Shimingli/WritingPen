@@ -22,27 +22,25 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.shiming.pen.R;
+import com.shiming.pen.new_code.IPenConfig;
+import com.shiming.pen.new_code.NewDrawPenView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 /**
  * author： Created by shiming on 2018/1/20 15:08
  * mailbox：lamshiming@sina.com
  * 田字格的Demo
  */
-
-public class FieldCharacterShapeActivity extends AppCompatActivity implements DrawViewLayout.IActionCallback {
+public class FieldCharacterShapeActivity extends AppCompatActivity implements DrawViewLayout.IActionCallback, View.OnClickListener {
     private DrawViewLayout mDrawViewLayout;
     private Bitmap mBitmap;
     private Bitmap mBitmapResize;
@@ -63,7 +61,6 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     private String mPath = null;
     private boolean mIsCreateBitmap = false;
     private Bitmap mCreatBimap;
-
     /**
      * 自动保存Timer
      */
@@ -72,11 +69,12 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
      * add shiming  手写体的生成图片的时间
      */
     public static final int HADN_DRAW_TIME = 700;
-
     public static final String FONT_NAME_HEAD = "[font]";
     public static final String FONT_NAME_TAIL = "[/font]";
     public static int mAllHandDrawSize;
     public static int mEmotionSize;
+    private Button mChangePen;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,11 +147,10 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
                     try {
                         boolean obj = (boolean) msg.obj;
                         if (obj) {
-                            DrawPenView view = mDrawViewLayout.getSaveBitmap();
+                            NewDrawPenView view = mDrawViewLayout.getSaveBitmap();
                             if (view != null) {
                                 //边距强行扫描
-                                // mBitmap = view.clearBlank(100);
-                                mBitmap = view.getBitmap();
+                                mBitmap = view.clearBlank(100);
                                 mHandler.post(runnableUi);
                             }
                         }
@@ -176,6 +173,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     };
 
     private void findViews() {
+        mChangePen = (Button) findViewById(R.id.btn_change_pen);
         mRetContent = (HandRichTextEditor)findViewById(R.id.et_handdraw_content);
         mDrawViewLayout = (DrawViewLayout)findViewById(R.id.brush_weight);
         testStorage();
@@ -190,6 +188,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
                 mDrawViewLayout.showBk();
             }
         });
+        mChangePen.setOnClickListener(this);
     }
 
     private Bitmap creatBimap() {
@@ -337,7 +336,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
      */
     @Override
     public void needSpace() {
-        DrawPenView view = mDrawViewLayout.getSaveBitmap();
+        NewDrawPenView view = mDrawViewLayout.getSaveBitmap();
         if (view != null) {
             if (view.getHasDraw()) {
                 mBitmap = view.getBitmap();
@@ -380,7 +379,9 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     public void deleteOnLongClick() {
         if (mRetContent.getLastFocusEdit().getSelectionStart() == 0) {
             mRetContent.onBackspacePress(mRetContent.getLastFocusEdit());
-            mHandler.removeCallbacks(runnable);
+            if (mHandler!=null) {
+                mHandler.removeCallbacks(runnable);
+            }
         } else {
             SystemUtils.sendKeyCode(67);
         }
@@ -397,24 +398,6 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         mRetContent.getLastFocusEdit().setCursorVisible(true);
     }
 
-
-
-
-
-
-    private static final int TAKE_PHOTO_REQUEST = 100;
-    private static final int OPEN_PICK_IMAGE_REQUEST = 101;
-    private static final int OPEN_VIEW_PAGER_REQUEST = 102;
-
-
-    /**
-     * 异步方式显示数据
-     *
-     * @param html
-     */
-    private Boolean isAddImg = false;  // 判断最后插入的是图片吗
-    private int lastAddImg = 0;  //是不是第一次插入图片
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -424,11 +407,18 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         mTimerSave.cancel();
     }
 
-
-
-
-    public DrawViewLayout getDrawLayout() {
-        return mDrawViewLayout;
+    @Override
+    public void onClick(View v) {
+        int penConfig = mDrawViewLayout.getPenConfig();
+        switch (v.getId()){
+            case R.id.btn_change_pen:
+                if (penConfig== IPenConfig.STROKE_TYPE_PEN){
+                    penConfig=IPenConfig.STROKE_TYPE_BRUSH;
+                }else {
+                    penConfig=IPenConfig.STROKE_TYPE_PEN;
+                }
+                mDrawViewLayout.setPenConfig(penConfig);
+                break;
+        }
     }
-
 }
