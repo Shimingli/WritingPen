@@ -7,7 +7,6 @@ import android.graphics.Matrix;
  * Created by Administrator on 2017/8/10.
  *
  */
-
 public class BitmapDrawUtils {
     /**
      * 图片缩放

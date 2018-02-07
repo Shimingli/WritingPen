@@ -3,8 +3,8 @@
 安卓画笔笔锋的实现探索（二）：http://www.jianshu.com/p/3ee259f2caf7#
 #看效果#
 
-![田字格Demo](https://github.com/Shimingli/WritingPen/blob/master/5d5d18d3aa7f18e85c6c61c309b24463.mp4)
-
+最新的效果图
+![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 设置笔宽度为60，效果如下

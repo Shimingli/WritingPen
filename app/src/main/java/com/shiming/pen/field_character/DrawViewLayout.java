@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
@@ -70,7 +71,15 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         mClearCanvas.setOnClickListener(this);
         mSaveBitmap.setOnClickListener(this);
         mSaveBitmap.setOnLongClickListener(this);
-
+        mSaveBitmap.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_UP){
+                    Executor.INSTANCE.stop();
+                }
+                return false;
+            }
+        });
     }
 
     private void setDrawViewConfig() {

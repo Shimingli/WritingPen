@@ -35,16 +35,13 @@ public class DeletableEditText extends EditText {
     }
 
     private class DeleteInputConnection extends InputConnectionWrapper {
-
         public DeleteInputConnection(InputConnection target, boolean mutable) {
             super(target, mutable);
         }
-
         @Override
         public boolean sendKeyEvent(KeyEvent event) {
             return super.sendKeyEvent(event);
         }
-
         @Override
         public boolean deleteSurroundingText(int beforeLength, int afterLength) {
             if (beforeLength == 1 && afterLength == 0) {
@@ -53,7 +50,6 @@ public class DeletableEditText extends EditText {
                         && sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
                         KeyEvent.KEYCODE_DEL));
             }
-
             return super.deleteSurroundingText(beforeLength, afterLength);
         }
 
