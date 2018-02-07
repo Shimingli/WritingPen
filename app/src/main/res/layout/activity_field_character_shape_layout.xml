@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentPanel"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.shiming.pen.MainActivity">
-    <com.shiming.pen.new_code.NewDrawPenView
-        android:id="@+id/draw_pen_view"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/top_container"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="400dp"/>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_stroke_pen"
-            android:text="钢笔"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_brush_pen"
-            android:text="水彩笔"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_clear_canvas"
-            android:text="清除画布"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="match_parent">
+        <com.shiming.pen.field_character.DrawViewLayout
+            android:id="@+id/brush_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/clr_f5f4f3"/>
+        <com.shiming.pen.field_character.HandRichTextEditor
+            android:layout_above="@+id/brush_weight"
+            android:id="@+id/et_handdraw_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_5"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+</FrameLayout>

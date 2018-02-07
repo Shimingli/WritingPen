@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.FieldCharacterShapeActivity"/>
+        <activity android:name=".field_character.FieldCharacterShapeActivity"/>
         <activity android:name=".view.OldDemoActivity"/>
     </application>
 
