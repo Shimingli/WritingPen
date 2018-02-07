@@ -93,7 +93,6 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         int id = v.getId();
         switch (id) {
             case R.id.rll_show_keyb_container:
-                Toast.makeText(mContext,"隐藏手写键盘",Toast.LENGTH_SHORT).show();
                 showOrHideMySurfaceView();
                 break;
             case R.id.rll_show_space_container:
@@ -105,7 +104,7 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
                 mIActionCallback.creatNewLine();
                 break;
             case R.id.rll_show_delete_container:
-                Toast.makeText(mContext,"删除，长按删除",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,"删除或者长按删除",Toast.LENGTH_SHORT).show();
                 mIActionCallback.deleteOnClick();
                 break;
         }
@@ -124,11 +123,11 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
             mIsShowKeyB=true;
             mViewStub.setVisibility(VISIBLE);
             mUpOrDownIcon.setSelected(true);
-        //    mIActionCallback.showkeyB(true);
+            Toast.makeText(mContext,"显示键盘",Toast.LENGTH_SHORT).show();
             mDrawView.setVisibility(VISIBLE);
         } else if (mDrawView.getVisibility() == VISIBLE) {
             mIsShowKeyB=false;
-          //  mIActionCallback.showkeyB(false);
+            Toast.makeText(mContext,"隐藏键盘",Toast.LENGTH_SHORT).show();
             mDrawView.setVisibility(GONE);
             mViewStub.setVisibility(GONE);
             mUpOrDownIcon.setSelected(false);
