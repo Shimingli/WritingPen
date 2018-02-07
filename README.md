@@ -3,7 +3,7 @@
 安卓画笔笔锋的实现探索（二）：http://www.jianshu.com/p/3ee259f2caf7#
 #看效果#
 
-
+![田字格Demo](https://github.com/Shimingli/WritingPen/blob/master/5d5d18d3aa7f18e85c6c61c309b24463.mp4)
 
 
 
