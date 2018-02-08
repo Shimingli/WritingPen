@@ -140,13 +140,16 @@ public class NewDrawPenView extends View {
         //getActionMask:触摸的动作,按下，抬起，滑动，多点按下，多点抬起
         switch (event2.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                if (mGetTimeListner!=null)
                 mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (mGetTimeListner!=null)
                 mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_UP:
                 long time = System.currentTimeMillis();
+                if (mGetTimeListner!=null)
                 mGetTimeListner.getTime(time);
                 break;
             default:
