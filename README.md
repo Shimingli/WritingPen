@@ -3,6 +3,9 @@
 安卓画笔笔锋的实现探索（二）：http://www.jianshu.com/p/3ee259f2caf7#
 #看效果#
 
+蒲公英的地址的截图
+![下载地址](https://github.com/Shimingli/WritingPen/blob/master/code.png)
+
 最新的效果图
 ![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
