@@ -109,6 +109,20 @@ public class BrushPen extends BasePenExtend {
                 mCurPoint.alpha, point.x, point.y, point.width, point.alpha,
                 paint);
     }
+
+    /**
+     * 感谢作者，请教下怎么实时获取笔锋的宽度？
+     * @param canvas
+     * @param x0
+     * @param y0
+     * @param w0
+     * @param a0
+     * @param x1
+     * @param y1
+     * @param w1
+     * @param a1
+     * @param paint
+     */
     protected void drawLine(Canvas canvas, double x0, double y0, double w0,
                             int a0, double x1, double y1, double w1, int a1, Paint paint) {
         double curDis = Math.hypot(x0 - x1, y0 - y1);

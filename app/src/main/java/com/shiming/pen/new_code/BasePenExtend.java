@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import com.shiming.pen.Bezier;
 import com.shiming.pen.field_character.DrawPenView;
 import com.shiming.pen.old_code.ControllerPoint;
+import com.shiming.pen.old_code.OldDrawPenView;
 
 import java.util.ArrayList;
 
@@ -233,29 +234,31 @@ public abstract class BasePenExtend extends BasePen {
         //在次说明下，当手指抬起来，这个值会变大，这也就说明，抬起手太慢的话，笔锋效果不太明显
         //这就说明为什么笔锋的效果不太明显
         double calWidth = mBaseWidth * Math.exp(vfac);
+       
         //滑动的速度越快的话，mMoveThres也越大
         double mMoveThres = curDis * 0.01f;
         //对之值最大的地方进行控制
         if (mMoveThres > IPenConfig.WIDTH_THRES_MAX) {
             mMoveThres = IPenConfig.WIDTH_THRES_MAX;
         }
-        //滑动的越快的话，第一个判断会走
-        if (Math.abs(calWidth - mBaseWidth) / mBaseWidth > mMoveThres) {
-
-            if (calWidth > mBaseWidth) {
-                calWidth = mBaseWidth * (1 + mMoveThres);
-            } else {
-                calWidth = mBaseWidth * (1 - mMoveThres);
-            }
-            //滑动的越慢的话，第二个判断会走
-        } else if (Math.abs(calWidth - lastWidth) / lastWidth > mMoveThres) {
-
-            if (calWidth > lastWidth) {
-                calWidth = lastWidth * (1 + mMoveThres);
-            } else {
-                calWidth = lastWidth * (1 - mMoveThres);
-            }
-        }
+        // TODO: 2018/2/24   以下的方法 可以删除掉  原因是抽取了一下 ，本来不应该在这里的出现的  不好意思 
+//        //滑动越慢的情况下，得到的calWidth 和上面的calwidth 相差的值不一样
+//
+//        //滑动的越快的话，第一个判断会走
+//        if (Math.abs(calWidth - mBaseWidth) / mBaseWidth > mMoveThres) {
+//            if (calWidth > mBaseWidth) {
+//                calWidth = mBaseWidth * (1 + mMoveThres);
+//            } else {
+//                calWidth = mBaseWidth * (1 - mMoveThres);
+//            }
+//            //滑动的越慢的话，第二个判断会走  基本上在屏幕上手指基本上没有走动的时候 ，就会走这个方法
+//        } else if (Math.abs(calWidth - lastWidth) / lastWidth > mMoveThres) {
+//            if (calWidth > lastWidth) {
+//                calWidth = lastWidth * (1 + mMoveThres);
+//            } else {
+//                calWidth = lastWidth * (1 - mMoveThres);
+//            }
+//        }
         return calWidth;
     }
 

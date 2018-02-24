@@ -8,6 +8,7 @@ import android.view.MotionEvent;
  * @version v1.0 create at 2017/10/17
  * @des 处理draw和touch事件的基类
  */
+// TODO: 2018/2/24   发现优化点  在不断的绘制的同时，会卡顿   这个 优化起来 估计比较麻烦
 public abstract class BasePen {
 
     /**

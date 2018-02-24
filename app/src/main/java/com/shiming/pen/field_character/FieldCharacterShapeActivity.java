@@ -248,12 +248,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     1);
         } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    saveBitmapSd(mBitmapResize, full_name, mPath);
-                }
-            }).start();
+
         }
     }
 
@@ -271,12 +266,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 1) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        saveBitmapSd(mBitmapResize, full_name, mPath);
-                    }
-                }).start();
+
             } else {
                 // Permission Denied
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -285,29 +275,6 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    /**
-     * 保存bitmap到SD卡
-     */
-    public static void saveBitmapSd(Bitmap bitmap, String picName,String path){
-        if (bitmap==null){
-            return;
-        }
-        try {
-            File fil = new File(path);
-            if (!fil.exists()) {
-                fil.mkdirs();
-            }
-            File file = new File(path,picName);
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     /**
      * 这里是换行的需要
