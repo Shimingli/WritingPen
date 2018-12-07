@@ -1,5 +1,6 @@
 package com.shiming.pen.field_character;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -65,6 +66,7 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setOnClickListenerT() {
         mShowKeyboard.setOnClickListener(this);
         mGotoPreviousStep.setOnClickListener(this);
