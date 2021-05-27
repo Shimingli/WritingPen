@@ -7,26 +7,26 @@
 ##### 看效果
 
 * 蒲公英的地址的截图
-![下载地址](https://github.com/Shimingli/WritingPen/blob/master/code.png =200x200)
+![下载地址](https://github.com/Shimingli/WritingPen/blob/master/code.png){:height="200px" width="200px"}
 
 * 最新的效果图
-![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =200x200)
+![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240){:height="200px" width="400px"}
 
 
 * 设置笔宽度为60，效果如下
-![微信图片_20170910184918.png](http://upload-images.jianshu.io/upload_images/5363507-f1d4934949530f78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =200x200)
+![微信图片_20170910184918.png](http://upload-images.jianshu.io/upload_images/5363507-f1d4934949530f78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240){:height="200px" width="400px"}
 
 
-![image.png](http://upload-images.jianshu.io/upload_images/5363507-8b622187caa4fca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =200x200)
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-8b622187caa4fca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240){:height="200px" width="400px"}
 
 * 这个效果明显一点，哈哈，是不是很有大师的写字风格
-![微信图片_20170902142924.jpg](http://upload-images.jianshu.io/upload_images/5363507-76230a0761ef9dda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =200x200)
+![微信图片_20170902142924.jpg](http://upload-images.jianshu.io/upload_images/5363507-76230a0761ef9dda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240){:height="200px" width="400px"}
 
 #### 实现这个效果，在git上有个哥们用opengGl3.0实现比我这个更牛逼的效果，但是发现在低端手机上会报错，原因是不支持openGL3.0，导致Apk装入失败，1.0的api有看不懂，你说我能怎么办，我也很绝望啊！同时感觉opengl更加节手机性能，but我错了，在低端手机上使用opengl简直就是噩梦，卡的一逼，算了不提了，此功能的实现还是基于安卓的Paint，通过事件去绘制路径。
 
 ## 1.创建DrawPenView类继承View
 
-![image.png](http://upload-images.jianshu.io/upload_images/5363507-7094aaa5fa65811f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =200x200)
+![image.png](http://upload-images.jianshu.io/upload_images/5363507-7094aaa5fa65811f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240){:height="200px" width="400px"}
 #### 初始化笔,笔锋的效果，我个人尝试了使用三个笔，每次绘制的时候，三个笔一起绘制，根据手指的滑动速率的快慢去使其中的某个笔不用绘制，但是这个效果稀烂，所以view的还是用一只笔即可，
 ```
         mPaint = new Paint();
