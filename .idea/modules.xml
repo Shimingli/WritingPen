@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/WritingPen.iml" filepath="$PROJECT_DIR$/.idea/WritingPen.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WritingPen.iml" filepath="$PROJECT_DIR$/.idea/modules/WritingPen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WritingPen.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WritingPen.app.iml" />
     </modules>
   </component>
 </project>
