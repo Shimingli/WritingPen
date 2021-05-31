@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
@@ -15,8 +16,20 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
+
+//    repositories {
+//        jcenter()
+//        google()
+//        mavenLocal()
+////        mavenCentral()
+////        maven {
+////            url 'https://maven.google.com'
+////        }
+////
+//    }
 }
 
 task clean(type: Delete) {

@@ -12,10 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -25,6 +21,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.shiming.pen.R;
 import com.shiming.pen.new_code.IPenConfig;
 import com.shiming.pen.new_code.NewDrawPenView;
@@ -82,7 +84,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         //这里两个值关系到手写的所有的一切
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         mAllHandDrawSize = (int) (37.0 * dm.density);
-        mEmotionSize = (int)(dm.density * 27.0);
+        mEmotionSize = (int) (dm.density * 27.0);
         findViews();
         mDrawViewLayout.setActionCallback(this);
         mDrawViewLayout.showBk();
@@ -101,12 +103,17 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
             e.printStackTrace();
         }
     }
-    public static final String ROOT_PATH =  File.separator+"cn.shiming.fieldcharactershap";
-    /**当前操作文件的保存路径*/
-    public  String getHandPath(long draftId){
-        String path = Environment.getExternalStorageDirectory().getPath()  + ROOT_PATH  + File.separator + "handdraw" + File.separator +"shiming" + File.separator + draftId + File.separator;
+
+    public static final String ROOT_PATH = File.separator + "cn.shiming.fieldcharactershap";
+
+    /**
+     * 当前操作文件的保存路径
+     */
+    public String getHandPath(long draftId) {
+        String path = Environment.getExternalStorageDirectory().getPath() + ROOT_PATH + File.separator + "handdraw" + File.separator + "shiming" + File.separator + draftId + File.separator;
         return path;
     }
+
     public void audioSave() {
         mTimerSave = new Timer();
         mTimerSave.schedule(task, 60000, 20000);
@@ -174,8 +181,8 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
 
     private void findViews() {
         mChangePen = (Button) findViewById(R.id.btn_change_pen);
-        mRetContent = (HandRichTextEditor)findViewById(R.id.et_handdraw_content);
-        mDrawViewLayout = (DrawViewLayout)findViewById(R.id.brush_weight);
+        mRetContent = (HandRichTextEditor) findViewById(R.id.et_handdraw_content);
+        mDrawViewLayout = (DrawViewLayout) findViewById(R.id.brush_weight);
         testStorage();
         mRetContent.setOnHandRichEditTextHasFocus(new HandRichTextEditor.onHandRichEditTextHasFocus() {
             @Override
@@ -216,7 +223,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
                 ImageSpan imageSpan = new ImageSpan(FieldCharacterShapeActivity.this, mBitmapResize);
                 //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
                 full_name = LAST_NAME + System.currentTimeMillis();
-                String s =FONT_NAME_HEAD + full_name + FONT_NAME_TAIL;
+                String s = FONT_NAME_HEAD + full_name + FONT_NAME_TAIL;
                 SpannableString spannableString = new SpannableString(s);
                 //  用ImageSpan对象替换face
                 spannableString.setSpan(imageSpan, 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -259,7 +266,6 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         ed.requestFocus();
         ed.setCursorVisible(true);
     }
-
 
 
     @Override
@@ -346,7 +352,7 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     public void deleteOnLongClick() {
         if (mRetContent.getLastFocusEdit().getSelectionStart() == 0) {
             mRetContent.onBackspacePress(mRetContent.getLastFocusEdit());
-            if (mHandler!=null) {
+            if (mHandler != null) {
                 mHandler.removeCallbacks(runnable);
             }
         } else {
@@ -377,12 +383,12 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
     @Override
     public void onClick(View v) {
         int penConfig = mDrawViewLayout.getPenConfig();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_change_pen:
-                if (penConfig== IPenConfig.STROKE_TYPE_PEN){
-                    penConfig=IPenConfig.STROKE_TYPE_BRUSH;
-                }else {
-                    penConfig=IPenConfig.STROKE_TYPE_PEN;
+                if (penConfig == IPenConfig.STROKE_TYPE_PEN) {
+                    penConfig = IPenConfig.STROKE_TYPE_BRUSH;
+                } else {
+                    penConfig = IPenConfig.STROKE_TYPE_PEN;
                 }
                 mDrawViewLayout.setPenConfig(penConfig);
                 break;

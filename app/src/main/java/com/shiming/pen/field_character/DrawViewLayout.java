@@ -2,8 +2,6 @@ package com.shiming.pen.field_character;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,9 +12,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.shiming.pen.R;
 import com.shiming.pen.new_code.IPenConfig;
 import com.shiming.pen.new_code.NewDrawPenView;
+
 import static com.shiming.pen.new_code.IPenConfig.STROKE_TYPE_ERASER;
 
 
@@ -51,6 +53,7 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         initView();
 
     }
+
     private void initView() {
         mInflater = LayoutInflater.from(getContext());
         mChild = mInflater.inflate(R.layout.brush_weight_layout, this, false);
@@ -76,7 +79,7 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
         mSaveBitmap.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     Executor.INSTANCE.stop();
                 }
                 return false;
@@ -87,7 +90,7 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
     private void setDrawViewConfig() {
         mDrawView = (NewDrawPenView) findViewById(R.id.myglsurface_view);
         mDrawView.setCanvasCode(IPenConfig.STROKE_TYPE_BRUSH);
-        mPenConfig=IPenConfig.STROKE_TYPE_BRUSH;
+        mPenConfig = IPenConfig.STROKE_TYPE_BRUSH;
         mDrawView.setPenconfig(mPenConfig);
         mDrawView.setGetTimeListener(new NewDrawPenView.TimeListener() {
             @Override
@@ -111,19 +114,20 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
                 showOrHideMySurfaceView();
                 break;
             case R.id.rll_show_space_container:
-                Toast.makeText(mContext,"增加空格",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "增加空格", Toast.LENGTH_SHORT).show();
                 mIActionCallback.needSpace();
                 break;
             case R.id.rll_show_newline_container:
-                Toast.makeText(mContext,"换行",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "换行", Toast.LENGTH_SHORT).show();
                 mIActionCallback.creatNewLine();
                 break;
             case R.id.rll_show_delete_container:
-                Toast.makeText(mContext,"删除或者长按删除",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "删除或者长按删除", Toast.LENGTH_SHORT).show();
                 mIActionCallback.deleteOnClick();
                 break;
         }
     }
+
     /**
      * 使用Viewstub的在不需要弹出键盘的时候，渲染不占内存不
      */
@@ -135,14 +139,14 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
             setDrawViewConfig();
         }
         if (mDrawView.getVisibility() == GONE) {
-            mIsShowKeyB=true;
+            mIsShowKeyB = true;
             mViewStub.setVisibility(VISIBLE);
             mUpOrDownIcon.setSelected(true);
-            Toast.makeText(mContext,"显示键盘",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "显示键盘", Toast.LENGTH_SHORT).show();
             mDrawView.setVisibility(VISIBLE);
         } else if (mDrawView.getVisibility() == VISIBLE) {
-            mIsShowKeyB=false;
-            Toast.makeText(mContext,"隐藏键盘",Toast.LENGTH_SHORT).show();
+            mIsShowKeyB = false;
+            Toast.makeText(mContext, "隐藏键盘", Toast.LENGTH_SHORT).show();
             mDrawView.setVisibility(GONE);
             mViewStub.setVisibility(GONE);
             mUpOrDownIcon.setSelected(false);
@@ -152,19 +156,19 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
 
 
     public void clearScreen() {
-        if (mDrawView==null)return;
+        if (mDrawView == null) return;
         mDrawView.setCanvasCode(STROKE_TYPE_ERASER);//z注意变量的来源
     }
 
     public void showBk() {
-        if (!getIsShowKeyB()){
+        if (!getIsShowKeyB()) {
             if (mViewStub.getParent() != null) {
                 mViewStub.inflate();
             }
             if (mDrawView == null) {
                 setDrawViewConfig();
             }
-            mIsShowKeyB=true;
+            mIsShowKeyB = true;
             mViewStub.setVisibility(VISIBLE);
             mUpOrDownIcon.setSelected(true);
             mIActionCallback.showkeyB(true);
@@ -185,7 +189,8 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
 
 
     /**
-     *  长按事件的启动定时器
+     * 长按事件的启动定时器
+     *
      * @param v
      * @return
      */
@@ -205,8 +210,8 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
     }
 
     public void setPenConfig(int penConfig) {
-       mDrawView.setCanvasCode(penConfig);
-        mPenConfig=penConfig;
+        mDrawView.setCanvasCode(penConfig);
+        mPenConfig = penConfig;
     }
 
     public interface IActionCallback {
