@@ -83,15 +83,13 @@ public class FieldCharacterShapeActivity extends AppCompatActivity implements Dr
         setContentView(R.layout.activity_field_character_shape_layout);
         //这里两个值关系到手写的所有的一切
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
-        mAllHandDrawSize = (int) (37.0 * dm.density);
+        mAllHandDrawSize = (int) (60.0 * dm.density);
         mEmotionSize = (int) (dm.density * 27.0);
         findViews();
         mDrawViewLayout.setActionCallback(this);
         mDrawViewLayout.showBk();
         initData();
         audioSave();
-
-
     }
 
 

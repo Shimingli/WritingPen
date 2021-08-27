@@ -236,7 +236,7 @@ public class HandRichTextEditor extends ScrollView {
         editText.setOnFocusChangeListener(focusListener);
         editText.requestFocus();
         editText.setCursorVisible(true);
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
         /**禁止长按，选择和隐藏键盘*/
         editText.setLongClickable(false);
         editText.setTextIsSelectable(false);

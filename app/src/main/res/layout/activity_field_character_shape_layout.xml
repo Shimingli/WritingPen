@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contentPanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/top_container"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
         <com.shiming.pen.field_character.DrawViewLayout
             android:id="@+id/brush_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
-            android:background="@color/clr_f5f4f3"/>
+            android:background="@color/clr_f5f4f3" />
+
         <com.shiming.pen.field_character.HandRichTextEditor
-            android:layout_above="@+id/brush_weight"
             android:id="@+id/et_handdraw_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/brush_weight"
             android:layout_marginTop="@dimen/dp_5"
             android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <Button
-        android:textSize="15sp"
-        android:layout_margin="@dimen/dp_5"
-        android:textColor="@color/colorPrimary"
         android:id="@+id/btn_change_pen"
-        android:text="切换笔的样式"
-        android:layout_gravity="right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/dp_5"
+        android:text="切换笔的样式"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp" />
 </FrameLayout>

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         findViews();
         doSomeThing();
-
     }
 
     private void doSomeThing() {
@@ -37,16 +36,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent=null;
-       switch (v.getId()){
-           case R.id.btn_stroke_pen://oldDemo
-                 intent=new Intent(MainActivity.this, OldDemoActivity.class);
-                 startActivity(intent);
-               break;
-           case R.id.btn_brush_pen://田字格的Demo
-               intent=new Intent(MainActivity.this, FieldCharacterShapeActivity.class);
-               startActivity(intent);
-               break;
-       }
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.btn_stroke_pen://oldDemo
+                intent = new Intent(MainActivity.this, OldDemoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_brush_pen://田字格的Demo
+                intent = new Intent(MainActivity.this, FieldCharacterShapeActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
