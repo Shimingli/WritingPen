@@ -6,7 +6,7 @@
 ##### 看效果
 
 * 最新的效果图
-  ![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240=100X200 )
+  ![微信图片_20180207180824.jpg](http://upload-images.jianshu.io/upload_images/5363507-8fa5d3ee5a21287a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 =100X200)
 
 
 * 设置笔宽度为60，效果如下
@@ -291,14 +291,15 @@ width="400px"}
 ```
 
 /**
+
 * 结合手指抬起来的动作，告诉现在的曲线控制点也必须变化，其实在这里也不需要结合着up事件使用 * 因为在down的事件中，所有点都会被重置，然后设置这个没有多少意义，但是可以改变下个事件的朝向改变
 * 先留着，因为后面如果需要控制整个颜色的改变的话，我的依靠这个方法，还有按压的时间的变化
-*/ /**
+  */ /**
 * 结合手指抬起来的动作，告诉现在的曲线控制点也必须变化，其实在这里也不需要结合着up事件使用 * 因为在down的事件中，所有点都会被重置，然后设置这个没有多少意义，但是可以改变下个事件的朝向改变
 * 先留着，因为后面如果需要控制整个颜色的改变的话，我的依靠这个方法，还有按压的时间的变化
-*/ public void end() { mSource.set(mDestination); float x = getMid(mNextControl.x, mSource.x); float
-y = getMid(mNextControl.y, mSource.y); float w = getMid(mNextControl.width, mSource.width);
-mControl.set(x, y, w); mDestination.set(mNextControl); }
+  */ public void end() { mSource.set(mDestination); float x = getMid(mNextControl.x, mSource.x);
+  float y = getMid(mNextControl.y, mSource.y); float w = getMid(mNextControl.width, mSource.width);
+  mControl.set(x, y, w); mDestination.set(mNextControl); }
 
 #### 还有个方法：我的提一句，是不是想一个一元二次的方程，哈哈！这个不是我写的，这个是基于git上开源的写的，是不是有点高中数学的影响了，哈哈，对就是这样的，
 
@@ -376,6 +377,7 @@ mControl.set(x, y, w); mDestination.set(mNextControl); }
 
 
 *
+
 这里需要在view中的onDraw中调用，本来我开始是想说能不能再一开始的时候，down事件的时候，给他画个园，但是这个园的半径我控制不好，所以在代码中我留下这个问题，以后需要做更难的效果的时候，我来把这个开始的步骤补上。
 
        /**
@@ -531,7 +533,7 @@ mControl.set(x, y, w); mDestination.set(mNextControl); }
        // 手指up 我画到纸上上
         draw(canvas);
 
-    }
+  }
 
 * 其实这里才是关键的地方，通过画布画椭圆，每一个点都是一个椭圆，这个椭圆的所有细节，逐渐构建出一个完美的笔尖
   和笔锋的效果,我觉得在这里需要大量的测试，其实就对低端手机进行排查，看我们绘制的笔的宽度是多少，绘制多少个椭圆然后在低端手机上不会那么卡，当然你哪一个N年前的手机给我，那也的卡，只不过需要适中的范围里面
@@ -562,7 +564,7 @@ mControl.set(x, y, w); mDestination.set(mNextControl); }
             y+=deltaY;
             w+=deltaW;
         }
-    }
+  }
 
 ## 最后来张自画像,可以，帅的一比！
 
@@ -603,8 +605,9 @@ mControl.set(x, y, w); mDestination.set(mNextControl); }
         }
 
         return targetPage;
-    }
+  }
 
 *
+
 我就一直纠结啊，这种可以啊，没毛病啊，老铁，我就一直做啊做，实现的效果，就是一直Move事件中的笔的宽度都是一样的，是不是崩溃啊，的确很崩溃，最后我在想，能不能拿到按压值MotionEvent.getPressure()
 ;但是最后通过一查，这个方法的返回值是这样决定的：感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的，我一直用手写，这个值永远不变，奔溃，又一次崩溃，最后在研究一个opengl写的Demo的时候，我发现了一个真理：那就是，我要画多长，是用户手指决定的，但是它的Move事件中接受到的点的数量是和这个距离没有相对应的关系，啊哈哈，对不对，我接受了这个多点，但是我要画很长的线，是不是我的线就细了，但Move中的接受到的点数量一样，我画的距离短了，是不是线就粗了，这就是这个Demo的原理，顿时豁然开朗，春暖花开！
