@@ -32,7 +32,6 @@ import com.shiming.pen.new_code.IPenConfig;
 import com.shiming.pen.new_code.NewDrawPenView;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 

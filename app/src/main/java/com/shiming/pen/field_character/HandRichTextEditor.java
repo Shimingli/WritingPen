@@ -2,8 +2,6 @@ package com.shiming.pen.field_character;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -13,11 +11,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -69,28 +65,29 @@ public class HandRichTextEditor extends ScrollView {
 
     /**
      * 设置空白EditText属性
-     * */
-    public void setVisibilityEdit(int visibility){
-        for (EditText view : editViewList){
-            if(view != null && TextUtils.isEmpty(view.getText())){
+     */
+    public void setVisibilityEdit(int visibility) {
+        for (EditText view : editViewList) {
+            if (view != null && TextUtils.isEmpty(view.getText())) {
                 view.setVisibility(visibility);
             }
         }
     }
-    public void setVisibilityClose(int visibility){
-        for (View view : btnCloseList){
+
+    public void setVisibilityClose(int visibility) {
+        for (View view : btnCloseList) {
             view.setVisibility(visibility);
         }
-        for(View view:viewCloseList){
+        for (View view : viewCloseList) {
             view.setVisibility(visibility);
         }
     }
 
-    public void setPath(String path){
+    public void setPath(String path) {
         mPATH = path;
     }
 
-    private void init(){
+    private void init() {
         // 1. 初始化allLayout
         allLayout = new LinearLayout(getContext());
         allLayout.setOrientation(LinearLayout.VERTICAL);
@@ -118,7 +115,7 @@ public class HandRichTextEditor extends ScrollView {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     lastFocusEdit = (EditText) v;
-                    if (mOnHandRichEditTextHasFocus==null)return;
+                    if (mOnHandRichEditTextHasFocus == null) return;
                     mOnHandRichEditTextHasFocus.hasFocus(v);
                 }
             }
@@ -155,8 +152,8 @@ public class HandRichTextEditor extends ScrollView {
                     // 文本合并
                     String str3 = str2 + str1;
                     List<WordSandPictures> list = HandViewUtils.setRelcenote(str3);
-                    SpannableStringBuilder strbuilder = HandViewUtils.getRelcenote(str3,list);
-                    SpannableStringBuilder strbuilder2 = HandViewUtils.getEditImg(getContext(),strbuilder,mPATH);
+                    SpannableStringBuilder strbuilder = HandViewUtils.getRelcenote(str3, list);
+                    SpannableStringBuilder strbuilder2 = HandViewUtils.getEditImg(getContext(), strbuilder, mPATH);
                     preEdit.setText(strbuilder2);
                     preEdit.requestFocus();
                     preEdit.setSelection(str2.length(), str2.length());
@@ -166,18 +163,20 @@ public class HandRichTextEditor extends ScrollView {
         }
     }
 
-    public interface onHandRichEditTextHasFocus{
+    public interface onHandRichEditTextHasFocus {
         void hasFocus(View view);
 
         void onClickChange(View v);
     }
-    public void setOnHandRichEditTextHasFocus(onHandRichEditTextHasFocus li){
-        mOnHandRichEditTextHasFocus=li;
+
+    public void setOnHandRichEditTextHasFocus(onHandRichEditTextHasFocus li) {
+        mOnHandRichEditTextHasFocus = li;
     }
+
     /**
      * 首次创建EditText
-     * */
-    private void createFirstEditText(){
+     */
+    private void createFirstEditText() {
         LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         //editNormalPadding = dip2px(EDIT_PADDING);
@@ -224,6 +223,7 @@ public class HandRichTextEditor extends ScrollView {
         btnCloseList.clear();
         viewCloseList.clear();
     }
+
     /**
      * 生成文本输入框
      */
@@ -246,16 +246,19 @@ public class HandRichTextEditor extends ScrollView {
         SystemUtils.hideSoftInputMethod(editText);
         return editText;
     }
-    OnClickListener  onClickListener= new OnClickListener(){
+
+    OnClickListener onClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            if (mOnHandRichEditTextHasFocus==null)return;
+            if (mOnHandRichEditTextHasFocus == null) return;
             mOnHandRichEditTextHasFocus.onClickChange(v);
         }
     };
 
-    /**禁止长按和选择*/
+    /**
+     * 禁止长按和选择
+     */
     ActionMode.Callback callback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -278,7 +281,7 @@ public class HandRichTextEditor extends ScrollView {
         }
     };
 
-    public EditText getLastFocusEdit(){
+    public EditText getLastFocusEdit() {
         return lastFocusEdit;
     }
 

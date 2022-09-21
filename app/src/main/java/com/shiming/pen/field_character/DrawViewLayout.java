@@ -216,7 +216,6 @@ public class DrawViewLayout extends FrameLayout implements View.OnClickListener,
 
     public interface IActionCallback {
 
-
         void creatNewLine();
 
         void getUptime(long l);

@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.shiming.pen.MainActivity">
+
     <com.shiming.pen.new_code.NewDrawPenView
         android:id="@+id/draw_pen_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+        android:layout_height="400dp" />
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_stroke_pen"
-            android:text="钢笔"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="钢笔" />
+
         <Button
             android:id="@+id/btn_brush_pen"
-            android:text="水彩笔"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="水彩笔" />
+
         <Button
             android:id="@+id/btn_clear_canvas"
-            android:text="清除画布"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="清除画布" />
     </LinearLayout>
+
     <TextView
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_margin="@dimen/dp_5"
-        android:textSize="15sp"
-        android:text="点击清除画布了，需要再次点击那种笔才可以绘制，原因是这个类在田字格哪里进行了复用了"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
+        android:text="点击清除画布了，需要再次点击那种笔才可以绘制，原因是这个类在田字格哪里进行了复用了"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
 </LinearLayout>

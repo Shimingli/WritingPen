@@ -5,7 +5,7 @@ import com.shiming.pen.old_code.ControllerPoint;
 /**
  * @author shiming
  * @version v1.0 create at 2017/8/24
- * @des  对点的位置和宽度控制的bezier曲线，主要是两个点，都包含了宽度和点的坐标
+ * @des 对点的位置和宽度控制的bezier曲线，主要是两个点，都包含了宽度和点的坐标
  */
 public class Bezier {
     //控制点的，
@@ -22,16 +22,15 @@ public class Bezier {
 
     /**
      * 初始化两个点，
+     *
      * @param last 最后的点的信息
-     * @param cur 当前点的信息,当前点的信息，当前点的是根据事件获得，同时这个当前点的宽度是经过计算的得出的
+     * @param cur  当前点的信息,当前点的信息，当前点的是根据事件获得，同时这个当前点的宽度是经过计算的得出的
      */
-    public void init(ControllerPoint last, ControllerPoint cur)
-    {
+    public void init(ControllerPoint last, ControllerPoint cur) {
         init(last.x, last.y, last.width, cur.x, cur.y, cur.width);
     }
 
-    public void init(float lastx, float lasty, float lastWidth, float x, float y, float width)
-    {
+    public void init(float lastx, float lasty, float lastWidth, float x, float y, float width) {
         //资源点设置，最后的点的为资源点
         mSource.set(lastx, lasty, lastWidth);
         float xmid = getMid(lastx, x);
@@ -40,23 +39,24 @@ public class Bezier {
         //距离点为平均点
         mDestination.set(xmid, ymid, wmid);
         //控制点为当前的距离点
-        mControl.set(getMid(lastx,xmid),getMid(lasty,ymid),getMid(lastWidth,wmid));
+        mControl.set(getMid(lastx, xmid), getMid(lasty, ymid), getMid(lastWidth, wmid));
         //下个控制点为当前点
         mNextControl.set(x, y, width);
     }
 
-    public void addNode(ControllerPoint cur){
+    public void addNode(ControllerPoint cur) {
         addNode(cur.x, cur.y, cur.width);
     }
 
     /**
      * 替换就的点，原来的距离点变换为资源点，控制点变为原来的下一个控制点，距离点取原来控制点的和新的的一半
      * 下个控制点为新的点
-     * @param x 新的点的坐标
-     * @param y 新的点的坐标
+     *
+     * @param x     新的点的坐标
+     * @param y     新的点的坐标
      * @param width
      */
-    public void addNode(float x, float y, float width){
+    public void addNode(float x, float y, float width) {
         mSource.set(mDestination);
         mControl.set(mNextControl);
         mDestination.set(getMid(mNextControl.x, x), getMid(mNextControl.y, y), getMid(mNextControl.width, width));
@@ -78,28 +78,28 @@ public class Bezier {
     }
 
     /**
-     *
      * @param t 孔子
      * @return
      */
-    public ControllerPoint getPoint(double t){
-        float x = (float)getX(t);
-        float y = (float)getY(t);
-        float w = (float)getW(t);
+    public ControllerPoint getPoint(double t) {
+        float x = (float) getX(t);
+        float y = (float) getY(t);
+        float w = (float) getW(t);
         ControllerPoint point = new ControllerPoint();
-        point.set(x,y,w);
+        point.set(x, y, w);
         return point;
     }
 
     /**
      * 三阶曲线的控制点
+     *
      * @param p0
      * @param p1
      * @param p2
      * @param t
      * @return
      */
-    private double getValue(double p0, double p1, double p2, double t){
+    private double getValue(double p0, double p1, double p2, double t) {
         double A = p2 - 2 * p1 + p0;
         double B = 2 * (p1 - p0);
         double C = p0;
@@ -114,21 +114,20 @@ public class Bezier {
         return getValue(mSource.y, mControl.y, mDestination.y, t);
     }
 
-    private double getW(double t){
+    private double getW(double t) {
         return getWidth(mSource.width, mDestination.width, t);
     }
 
     /**
-     *
      * @param x1 一个点的x
      * @param x2 一个点的x
      * @return
      */
     private float getMid(float x1, float x2) {
-        return (float)((x1 + x2) / 2.0);
+        return (float) ((x1 + x2) / 2.0);
     }
 
-    private double getWidth(double w0, double w1, double t){
+    private double getWidth(double w0, double w1, double t) {
         return w0 + (w1 - w0) * t;
     }
 

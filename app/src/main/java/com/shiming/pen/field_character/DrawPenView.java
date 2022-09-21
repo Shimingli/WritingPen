@@ -23,7 +23,7 @@ import com.shiming.pen.old_code.StrokePen;
  * @version v1.0 create at 2017/8/24
  * @des DrawPenView实现手写关键类，目前只提供了，手绘的功能和清除画布，后期根据业务逻辑可以动态的设置方法
  */
-public class DrawPenView extends View  {
+public class DrawPenView extends View {
     private static final String TAG = "DrawPenView";
     private Paint mPaint;//画笔
     private Canvas mCanvas;//画布
@@ -32,17 +32,17 @@ public class DrawPenView extends View  {
     public static final int CANVAS_RESET = 1;//全部清除
     private StrokePen mVisualStrokePen;
     private Context mContext;
-    public static  int mCanvasCode=CANVAS_NORMAL;
+    public static int mCanvasCode = CANVAS_NORMAL;
     private String mPaintColor;
     private int mSize;
     private boolean mIsCanvasDraw;
 
     public DrawPenView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public DrawPenView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public DrawPenView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -60,19 +60,21 @@ public class DrawPenView extends View  {
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         int i = dp2px(mContext, 40);
-        int i1 = dp2px(mContext,280);
-        mBitmap = Bitmap.createBitmap(dm.widthPixels-i-i, i1, Bitmap.Config.ARGB_8888);
-        mVisualStrokePen=new StrokePen(mContext);
+        int i1 = dp2px(mContext, 280);
+        mBitmap = Bitmap.createBitmap(dm.widthPixels - i - i, i1, Bitmap.Config.ARGB_8888);
+        mVisualStrokePen = new StrokePen(mContext);
         initPaint();
         initCanvas();
     }
+
     public static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
     private void initPaint() {
         mSize = 65;
-        mPaintColor="#3B3635";
+        mPaintColor = "#3B3635";
         mPaint = new Paint();
         mPaint.setColor(Color.parseColor(mPaintColor));
         mPaint.setStrokeWidth(mSize);
@@ -85,9 +87,10 @@ public class DrawPenView extends View  {
         mPaint.setFilterBitmap(true);
         mVisualStrokePen.setPaint(mPaint);
     }
+
     private void initCanvas() {
         mCanvas = new Canvas(mBitmap);
-        mCanvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
+        mCanvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
         //设置画布的颜色的问题
         mCanvas.drawColor(Color.TRANSPARENT);
     }
@@ -98,8 +101,9 @@ public class DrawPenView extends View  {
 
     /**
      * 当设置完成了，需要告诉其他的控件我们的笔的宽度发生了改变
+     *
      * @param paintColor 颜色
-     * @param width 宽度
+     * @param width      宽度
      */
     public void changePaintSize(String paintColor, float width) {
         mPaint.setStrokeWidth(width);
@@ -144,7 +148,7 @@ public class DrawPenView extends View  {
             case MotionEvent.ACTION_UP:
                 long time = System.currentTimeMillis();
                 mGetTimeListner.getTime(time);
-                mVisualStrokePen.onUp(mVisualStrokePen.createMotionElement(event2),mCanvas);
+                mVisualStrokePen.onUp(mVisualStrokePen.createMotionElement(event2), mCanvas);
                 break;
             default:
                 break;
@@ -154,23 +158,23 @@ public class DrawPenView extends View  {
     }
 
     /**
-     *清除画布，记得清除点的集合
+     * 清除画布，记得清除点的集合
      */
     public void reset() {
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         mCanvas.drawPaint(mPaint);
         mPaint.setXfermode(null);
-        mIsCanvasDraw=false;
+        mIsCanvasDraw = false;
         mVisualStrokePen.clear();
     }
 
     /**
-     *
      * @return 判断是否有绘制内容在画布上
      */
-    public boolean getHasDraw(){
+    public boolean getHasDraw() {
         return mIsCanvasDraw;
     }
+
     public void setCurrentState(int currentState) {
         mCanvasCode = currentState;
     }
@@ -180,6 +184,7 @@ public class DrawPenView extends View  {
     /**
      * 逐行扫描 清楚边界空白。功能是生成一张bitmap位于正中间，不是位于顶部，此关键的是我们画布需要
      * 成透明色才能生效
+     *
      * @param blank 边距留多少个像素
      * @return tks github E-signature
      */
@@ -260,7 +265,8 @@ public class DrawPenView extends View  {
             return null;
         }
     }
-    public Bitmap getBitmap(){
+
+    public Bitmap getBitmap() {
         return mBitmap;
     }
 

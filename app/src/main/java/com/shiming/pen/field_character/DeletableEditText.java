@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 /**
  * 这个是从stackOverFlow上面找到的解决方案，主要用途是处理软键盘回删按钮backSpace时回调OnKeyListener
- *
  */
 @SuppressLint("AppCompatCustomView")
 public class DeletableEditText extends EditText {
@@ -38,10 +37,12 @@ public class DeletableEditText extends EditText {
         public DeleteInputConnection(InputConnection target, boolean mutable) {
             super(target, mutable);
         }
+
         @Override
         public boolean sendKeyEvent(KeyEvent event) {
             return super.sendKeyEvent(event);
         }
+
         @Override
         public boolean deleteSurroundingText(int beforeLength, int afterLength) {
             if (beforeLength == 1 && afterLength == 0) {

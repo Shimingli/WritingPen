@@ -32,7 +32,7 @@ public class OldDrawPenView extends View {
     private Bitmap mBitmap;
     private StrokePen mVisualStrokePen;
     private Context mContext;
-    public static  int mCanvasCode= IPenConfig.STROKE_TYPE_PEN;
+    public static int mCanvasCode = IPenConfig.STROKE_TYPE_PEN;
     private BrushPen mStokeBrushPen;
 
     public OldDrawPenView(Context context) {
@@ -61,7 +61,7 @@ public class OldDrawPenView extends View {
         ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         mBitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, Bitmap.Config.ARGB_8888);
         //笔的控制类
-        mVisualStrokePen=new StrokePen(mContext);
+        mVisualStrokePen = new StrokePen(mContext);
         initPaint(mContext);
         initCanvas();
     }
@@ -82,6 +82,7 @@ public class OldDrawPenView extends View {
 
 
     }
+
     private void initCanvas() {
         mCanvas = new Canvas(mBitmap);
         //设置画布的颜色的问题
@@ -118,15 +119,16 @@ public class OldDrawPenView extends View {
     }
 
     /**
-     event.getAction() //获取触控动作比如ACTION_DOWN
-     event.getPointerCount(); //获取触控点的数量，比如2则可能是两个手指同时按压屏幕
-     event.getPointerId(nID); //对于每个触控的点的细节，我们可以通过一个循环执行getPointerId方法获取索引
-     event.getX(nID); //获取第nID个触控点的x位置,记录的第一个点为getX，getY
-     event.getY(nID); //获取第nID个点触控的y位置
-     event.getPressure(nID); //LCD可以感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的
-     event.getDownTime() //按下开始时间
-     event.getEventTime() // 事件结束时间
-     event.getEventTime()-event.getDownTime()); //总共按下时花费时间
+     * event.getAction() //获取触控动作比如ACTION_DOWN
+     * event.getPointerCount(); //获取触控点的数量，比如2则可能是两个手指同时按压屏幕
+     * event.getPointerId(nID); //对于每个触控的点的细节，我们可以通过一个循环执行getPointerId方法获取索引
+     * event.getX(nID); //获取第nID个触控点的x位置,记录的第一个点为getX，getY
+     * event.getY(nID); //获取第nID个点触控的y位置
+     * event.getPressure(nID); //LCD可以感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的
+     * event.getDownTime() //按下开始时间
+     * event.getEventTime() // 事件结束时间
+     * event.getEventTime()-event.getDownTime()); //总共按下时花费时间
+     *
      * @param event
      * @return
      */
@@ -144,7 +146,7 @@ public class OldDrawPenView extends View {
                 mVisualStrokePen.onMove(mVisualStrokePen.createMotionElement(event2));
                 break;
             case MotionEvent.ACTION_UP:
-               mVisualStrokePen.onUp(mVisualStrokePen.createMotionElement(event2),mCanvas);
+                mVisualStrokePen.onUp(mVisualStrokePen.createMotionElement(event2), mCanvas);
                 break;
             default:
                 break;
@@ -154,7 +156,7 @@ public class OldDrawPenView extends View {
     }
 
     /**
-     *清除画布，记得清除点的集合
+     * 清除画布，记得清除点的集合
      */
     public void reset() {
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -168,13 +170,14 @@ public class OldDrawPenView extends View {
     }
 
 
-    public Bitmap getBitmap(){
+    public Bitmap getBitmap() {
         return mBitmap;
     }
 
     public void onResume() {
 
     }
+
     public TimeListener mGetTimeListner;
 
     public void setGetTimeListener(TimeListener l) {

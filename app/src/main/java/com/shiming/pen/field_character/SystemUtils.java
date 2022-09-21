@@ -37,23 +37,23 @@ public class SystemUtils {
     }
 
 
-    /**隐藏系统键盘*/
-    public static void hideSoftInputMethod(EditText editText){
+    /**
+     * 隐藏系统键盘
+     */
+    public static void hideSoftInputMethod(EditText editText) {
         int currentVersion = android.os.Build.VERSION.SDK_INT;
         String methodName = null;
-        if(currentVersion >= 16){
+        if (currentVersion >= 16) {
             // 4.2
             methodName = "setShowSoftInputOnFocus";
-        }
-        else if(currentVersion >= 14){
+        } else if (currentVersion >= 14) {
             // 4.0
             methodName = "setSoftInputShownOnFocus";
         }
 
-        if(methodName == null){
+        if (methodName == null) {
             editText.setInputType(InputType.TYPE_NULL);
-        }
-        else{
+        } else {
             Class<EditText> cls = EditText.class;
             Method setShowSoftInputOnFocus;
             try {

@@ -33,8 +33,10 @@ public class BrushPen extends BasePenExtend {
         super(context);
         initTexture();
     }
+
     /**
      * 由于需要画笔piant中的一些信息，就不能让paint为null，所以setBitmap需要有paint的时候设置
+     *
      * @param paint
      */
     @Override
@@ -58,6 +60,7 @@ public class BrushPen extends BasePenExtend {
 
     /**
      * 主要是得到需要绘制的rect的区域
+     *
      * @param bitmap
      */
     private void setBitmap(Bitmap bitmap) {
@@ -77,13 +80,13 @@ public class BrushPen extends BasePenExtend {
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
         //src 代表需要绘制的区域
-        mOldRect.set(0, 0, mBitmap.getWidth()/4, mBitmap.getHeight()/4);
+        mOldRect.set(0, 0, mBitmap.getWidth() / 4, mBitmap.getHeight() / 4);
     }
-
 
 
     /**
      * 更具笔的宽度的变化，笔的透明度要和发生变化
+     *
      * @param point
      * @return
      */
@@ -112,6 +115,7 @@ public class BrushPen extends BasePenExtend {
 
     /**
      * 感谢作者，请教下怎么实时获取笔锋的宽度？
+     *
      * @param canvas
      * @param x0
      * @param y0
@@ -185,6 +189,7 @@ public class BrushPen extends BasePenExtend {
         }
 
     }
+
     //对每个笔设置了透明度 如果这里不设置一个新的笔的话，每次down事件发生了，就会把一起的绘制完成的东西，透明度也发生改变，
     //这里还有想到更好的方法，
     // TODO: 2017/10/18

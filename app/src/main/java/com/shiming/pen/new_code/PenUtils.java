@@ -8,17 +8,18 @@ import android.graphics.Color;
  * @version v1.0 create at 2017/10/10
  * @des
  */
-public class PenUtlis {
+public class PenUtils {
 
     private int mBackColor = Color.TRANSPARENT;
 
     /**
      * 逐行扫描 清楚边界空白。功能是生成一张bitmap位于正中间，不是位于顶部，此关键的是我们画布需要
      * 成透明色才能生效
+     *
      * @param blank 边距留多少个像素
      * @return tks github E-signature
      */
-    public Bitmap clearBlank(Bitmap mBitmap,int blank) {
+    public Bitmap clearBlank(Bitmap mBitmap, int blank) {
         if (mBitmap != null) {
             int HEIGHT = mBitmap.getHeight();
             int WIDTH = mBitmap.getWidth();

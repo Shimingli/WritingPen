@@ -13,36 +13,38 @@
         android:orientation="horizontal">
 
         <Button
-            android:textColor="@color/colorPrimaryDark"
             android:id="@+id/btn_stroke_pen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="原来的Demo" />
+            android:text="原来的Demo"
+            android:textColor="@color/colorPrimaryDark" />
 
         <Button
             android:id="@+id/btn_brush_pen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="田字格的 Demo" />
+            android:text="田字格的 Demo"
+            android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_demo" />
+
         <TextView
-            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_80"
             android:layout_gravity="bottom"
+            android:background="@color/colorPrimaryDark"
             android:text="这是原来的Demo，写的字，请点击上面的两个按钮"
             android:textColor="@color/clr_ff0000"
             android:textSize="@dimen/sp_25" />

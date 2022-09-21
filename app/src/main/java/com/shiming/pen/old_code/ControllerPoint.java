@@ -12,6 +12,7 @@ public class ControllerPoint {
 
     public float width;
     public int alpha = 255;
+
     public ControllerPoint() {
     }
 

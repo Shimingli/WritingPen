@@ -5,6 +5,11 @@
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.287962962962963" />
         <entry key="app/src/main/res/layout/activity_field_character_shape_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33061594202898553" />
+        <entry key="app/src/main/res/layout/activity_old_demo_layout.xml" value="0.33061594202898553" />
+        <entry key="app/src/main/res/layout/brush_weight_layout.xml" value="0.33061594202898553" />
+        <entry key="app/src/main/res/layout/draw_view_layout.xml" value="0.33061594202898553" />
+        <entry key="app/src/main/res/layout/hand_rich_edittext.xml" value="0.33061594202898553" />
       </map>
     </option>
   </component>

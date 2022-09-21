@@ -111,7 +111,7 @@ public class NewDrawPenView extends View {
 
         }
         //设置
-        if (mStokeBrushPen.isNull()){
+        if (mStokeBrushPen.isNull()) {
             mStokeBrushPen.setPaint(mPaint);
         }
         invalidate();
@@ -140,17 +140,17 @@ public class NewDrawPenView extends View {
         //getActionMask:触摸的动作,按下，抬起，滑动，多点按下，多点抬起
         switch (event2.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (mGetTimeListner!=null)
-                mGetTimeListner.stopTime();
+                if (mGetTimeListner != null)
+                    mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (mGetTimeListner!=null)
-                mGetTimeListner.stopTime();
+                if (mGetTimeListner != null)
+                    mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_UP:
                 long time = System.currentTimeMillis();
-                if (mGetTimeListner!=null)
-                mGetTimeListner.getTime(time);
+                if (mGetTimeListner != null)
+                    mGetTimeListner.getTime(time);
                 break;
             default:
                 break;
@@ -158,13 +158,14 @@ public class NewDrawPenView extends View {
         invalidate();
         return true;
     }
+
     /**
-     *
      * @return 判断是否有绘制内容在画布上
      */
-    public boolean getHasDraw(){
+    public boolean getHasDraw() {
         return mIsCanvasDraw;
     }
+
     /**
      * 清除画布，记得清除点的集合
      */
@@ -175,7 +176,7 @@ public class NewDrawPenView extends View {
         mIsCanvasDraw = false;
         mStokeBrushPen.clear();
         //这里处理的不太好 需要优化
-       mCanvasCode=mPenconfig;
+        mCanvasCode = mPenconfig;
 
     }
 
@@ -199,10 +200,13 @@ public class NewDrawPenView extends View {
 
         void stopTime();
     }
+
     private int mBackColor = Color.TRANSPARENT;
+
     /**
      * 逐行扫描 清楚边界空白。功能是生成一张bitmap位于正中间，不是位于顶部，此关键的是我们画布需要
      * 成透明色才能生效
+     *
      * @param blank 边距留多少个像素
      * @return tks github E-signature
      */
